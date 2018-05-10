@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://wwwthymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MyTek - Ajouter un film</title>
+    <style type="text/css">
+        form > div {
+            padding: .5em;
+        }
+
+        div > label:first-child {
+            display: inline-block;
+            min-width: 18em;
+        }
+
+        .error-message {
+            color: red;
+        }
+        #success {
+            color:limegreen;
+        }
+    </style>
+</head>
+<body>
+
+
+<h1> Ajouter un film </h1>
+
+<form method="post" accept-charset="utf-8">
+    <div>
+        <label for="titre"><b>Titre : </b></label>
+        <input id="titre" name="titre" type="text" value=''>
+        <span class="error-message" th:text="${errors.get('titre')}"></span>
+    </div>
+    <div>
+        <label for="affiche">Lien de l'affiche : </label>
+        <input id="affiche" name="affiche" type="text" value=''>
+        <span class="error-message" th:text="${errors.get('affiche')}"></span>
+    </div>
+    <div>
+        <label for="nationalite">Nationalité : </label>
+        <input id="nationalite" name="nationalite" type="text" value=''>
+        <span class="error-message" th:text="${errors.get('nationalite')}"></span>
+    </div>
+    <div>
+        <label for="titreOriginal">Titre original : </label>
+        <input id="titreOriginal" name="titreOriginal" type="text">
+        <span class="error-message" th:text="${errors.get('titreOriginal')}"></span>
+    </div>
+    <div>
+        <select class="form-control" name="genre" id="dropGenre">
+            <option value="0" th:text="'Séléctionner un genre...'" ></option>
+            <option th:each="genre : ${genres}" th:value="${genre.libelle}" th:text="${genre.libelle}"></option>
+        </select>
+        <span class="error-message" th:text="${errors.get('genre')}"></span>
+    </div>
+    <div>
+        <button type="submit">Ajouter</button>
+    </div>
+</form>
+
+<div id="success">
+    <span th:text="${success}"></span>
+</div>
+
+<div>
+    <a th:href="@{/voirFilms}"> Voir tous les films</a>
+    <a th:href="@{/index}"> Retour à l'accueil</a>
+</div>
+
+</body>
+</html>

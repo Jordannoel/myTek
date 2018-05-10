@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://wwwthymeleaf.org">
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>MyTek - Voir les films </title>
+    <style type="text/css">
+        div > table {
+            text-align: center;
+        }
+
+        .error-message {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<h2 style="text-align:center">Liste de films</h2>
+<p style="text-align:center">Cliquez sur l'affiche d'un film pour afficher les détails</p>
+<br>
+
+<div style="overflow-x:auto">
+    <table>
+        <tr>
+            <th>Titre</th>
+            <th>Affiche</th>
+            <th>Nationalite</th>
+            <th>Titre original</th>
+            <th>Genre</th>
+        </tr>
+        <tr th:each="film : ${films}">
+            <td th:text="${film.titre}"></td>
+            <td><a th:href="@{'/film/' + ${film.id}}"><img th:src="${film.affiche}" alt="film"
+                                                           style="max-width:200px;"/></a></td>
+            <td th:text="${film.nationalite}"></td>
+            <td th:text="${film.titreOriginal}"></td>
+            <td th:text="${film.genre}"></td>
+        </tr>
+    </table>
+</div>
+
+<div>
+    <a th:href="@{/ajouterFilm}"> Ajouter un film</a>
+    <a th:href="@{/}"> Retour à l'accueil</a>
+</div>
+</body>
+</html>

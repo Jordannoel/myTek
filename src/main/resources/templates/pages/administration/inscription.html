@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://wwwthymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MyTek - inscription</title>
+    <style type="text/css">
+        form > div {
+            padding: .5em;
+        }
+
+        div > label:first-child {
+            display: inline-block;
+            min-width: 18em;
+        }
+
+        .error-message {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<h1> Inscription </h1>
+
+<form method="post" accept-charset="utf-8">
+    <div>
+        <label for="prenom">Prénom : </label>
+        <input id="prenom" name="prenom" type="text" value=''>
+        <span class="error-message" th:text="${errors.get('prenom')}"></span>
+    </div>
+    <div>
+        <label for="nom">Nom : </label>
+        <input id="nom" name="nom" type="text" value=''>
+        <span class="error-message" th:text="${errors.get('nom')}"></span>
+    </div>
+    <div>
+        <label for="email">Email : </label>
+        <input id="email" name="email" type="text" value=''>
+        <span class="error-message" th:text="${errors.get('email')}"></span>
+    </div>
+    <div>
+        <label for="motDePasse">Mot de passe : </label>
+        <input id="motDePasse" name="motDePasse" type="password">
+        <span class="error-message" th:text="${errors.get('motDePasse')}"></span>
+    </div>
+    <div>
+        <label for="confirmationMotDePasse">Confirmation du mot de passe : </label>
+        <input id="confirmationMotDePasse" name="confirmationMotDePasse" type="password">
+        <span class="error-message" th:text="${errors.get('confirmationMotDePasse')}"></span>
+    </div>
+    <div>
+        <select class="form-control" name="groupe"  id="dropGroupe">
+            <option value="0" th:text="'Séléctionner un groupe...'" ></option>
+            <option th:each="groupe : ${groupes}" th:value="${groupe.id}" th:text="${groupe.nomGroupe}"></option>
+        </select>
+        <span class="error-message" th:text="${errors.get('groupe')}"></span>
+    </div>
+    <div>
+        <input id="approbation" name="approbation" value="true" type="checkbox">
+        <label for="approbation">J'ai lu et approuvé les conditions générales de ce site</label>
+        <span class="error-message" th:text="${errors.get('approbation')}"></span>
+    </div>
+    <div>
+        <button type="submit">S'inscrire</button>
+    </div>
+</form>
+
+<div>
+    <a th:href="@{/index}"> Retour à l'accueil</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://wwwthymeleaf.org">
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>MyTek - Groupe validé</title>
+</head>
+<body>
+<div>
+    Votre groupe a bien été crée le
+    <span th:text="${date}" ></span>.
+    <br>
+    <h2>Groupe :</h2>
+    <br>
+    <span th:text="${nomGroupe}" ></span>
+    <img th:src="${urlImage}">
+</div>
+<div>
+    <a th:href="@{/}"> Retour à l'accueil</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://wwwthymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MyTek - Création d'un groupe</title>
+    <style>
+        .error-message {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<h1> Créer un groupe </h1>
+
+<form method="post" accept-charset="utf-8">
+    <h2 class = error-message th:text="${errors.get('utilisateur')}"></h2>
+
+    <div>
+        <label for="nomGroupe">Nom du groupe : </label>
+        <input id="nomGroupe" name="nomGroupe" type="text" value=''>
+        <span class="error-message" th:text="${errors.get('nomGroupe')}"></span>
+    </div>
+
+    <!-- mettre une datatable avec tous les groupes déjà créés -->
+
+    <div>
+        <label for="urlImage">Avatar : </label>
+        <input id="urlImage" name="urlImage" type="text" value=''>
+        <span class="error-message" th:text="${errors.get('urlImage')}"></span>
+    </div>
+    <div>
+        <input id="approbation" name="approbation" value="true" type="checkbox">
+        <label for="approbation">J'ai lu et approuvé les conditions générales de ce site</label>
+        <span class="error-message" th:text="${errors.get('approbation')}"></span>
+    </div>
+    <div>
+        <button type="submit">Créer</button>
+    </div>
+</form>
+
+<div>
+    <a th:href="@{/index}"> Retour à l'accueil</a>
+</div>
+
+</body>
+</html>

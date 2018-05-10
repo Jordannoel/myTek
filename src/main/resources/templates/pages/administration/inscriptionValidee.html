@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://wwwthymeleaf.org">
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>MyTek - inscription validée</title>
+</head>
+<body>
+<div>
+    <span th:text="${prenom}"></span> <span th:text="${nom}"></span>,
+    votre inscription a bien été prise en compte pour l'adresse mail
+    <span th:text="${email}" ></span>.
+</div>
+<div>
+    <a th:href="@{/}"> Retour à l'accueil</a>
+</div>
+</body>
+</html>
