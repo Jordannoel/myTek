@@ -1,6 +1,7 @@
 package com.epsi.guez.mytek.service.impl;
 
 import com.epsi.guez.mytek.dao.GroupeDao;
+import com.epsi.guez.mytek.exception.FormInvalideException;
 import com.epsi.guez.mytek.model.Groupe;
 import com.epsi.guez.mytek.service.GroupeService;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,12 @@ public class GroupeServiceImpl implements GroupeService {
         return groupeDao.findOneById(id);
     }
 
-    public Groupe findOneByNomGoupe(String nomGroupe){
+    public Groupe findOneByNomGroupe(String nomGroupe){
         return groupeDao.findOneByNomGroupe(nomGroupe);
     }
+
+    public boolean nomGroupeDejaExistant(String nomGroupe) {
+        return groupeDao.countByNomGroupe(nomGroupe) > 0;
+    }
+
 }

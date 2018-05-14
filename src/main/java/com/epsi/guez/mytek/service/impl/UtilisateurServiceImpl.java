@@ -1,7 +1,10 @@
 package com.epsi.guez.mytek.service.impl;
 
 import com.epsi.guez.mytek.dao.UtilisateurDao;
+import com.epsi.guez.mytek.exception.FormInvalideException;
+import com.epsi.guez.mytek.model.Groupe;
 import com.epsi.guez.mytek.model.Utilisateur;
+import com.epsi.guez.mytek.service.GroupeService;
 import com.epsi.guez.mytek.service.UtilisateurService;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +15,11 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
     private UtilisateurDao utilisateurDao;
 
-    public UtilisateurServiceImpl(UtilisateurDao utilisateurDao) {
+    private GroupeService groupeService;
+
+    public UtilisateurServiceImpl(UtilisateurDao utilisateurDao, GroupeService groupeService) {
         this.utilisateurDao = utilisateurDao;
+        this.groupeService = groupeService;
     }
 
     @Override
@@ -60,4 +66,27 @@ public class UtilisateurServiceImpl implements UtilisateurService {
             return utilisateurs.get(0);
         }
     }
+
+    @Override
+    public void setGroupeUtilisateur(Long idUtilisateur, Long idGroupe) throws FormInvalideException {
+        FormInvalideException ex = new FormInvalideException();
+
+        if (idUtilisateur == null) {
+            ex.addMessage("connexion", "Vous devez être connecté pour rejoindre un groupe.");
+            throw ex;
+        }
+        Utilisateur utilisateur = utilisateurDao.findOneById(idUtilisateur);
+        Groupe groupe = groupeService.findOneById(idGroupe);
+        if (utilisateur.getGroupes().contains(groupe)) {
+            ex.addMessage("groupe", "Vous appartenez déjà à ce groupe.");
+        }
+
+        if (ex.mustBeThrown()) {
+            throw ex;
+        }
+
+        utilisateur.addGroupe(groupe);
+        utilisateurDao.save(utilisateur);
+    }
+
 }

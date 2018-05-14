@@ -11,11 +11,9 @@ public class InscriptionGroupe {
 
     private String nom;
     private String urlImage;
-    private Date date;
 
     public InscriptionGroupe(String nom, String urlImage) {
         this.nom = nom;
         this.urlImage = urlImage;
-        this.date = new Date();
     }
 }

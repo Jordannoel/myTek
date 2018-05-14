@@ -7,6 +7,11 @@
         .error-message {
             color: red;
         }
+
+        div > label:first-child {
+            display: inline-block;
+            min-width: 18em;
+        }
     </style>
 </head>
 <body>
@@ -22,7 +27,11 @@
         <span class="error-message" th:text="${errors.get('nomGroupe')}"></span>
     </div>
 
-    <!-- mettre une datatable avec tous les groupes déjà créés -->
+    <div style="background-color: #f1f1f1">
+        <p>Tous les groupes déjà existant :</p>
+        <br>
+        <span th:each="groupe : ${groupes}" th:text="${groupe.nomGroupe} + ' | '"> </span>
+    </div>
 
     <div>
         <label for="urlImage">Avatar : </label>

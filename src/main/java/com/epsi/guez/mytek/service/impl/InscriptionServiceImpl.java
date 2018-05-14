@@ -23,7 +23,7 @@ public class InscriptionServiceImpl implements InscriptionService {
     }
 
     public void inscrireUtilisateur(String prenom, String nom, String email, String motDePasse, String confirmationMotDePasse,
-                                                      Long idGroupe, boolean approbation) throws FormInvalideException {
+                                    Long idGroupe, boolean approbation) throws FormInvalideException {
 
         FormInvalideException ex = new FormInvalideException();
 
@@ -73,9 +73,6 @@ public class InscriptionServiceImpl implements InscriptionService {
                 ex.addMessage("nomGroupe", "Le nom de votre groupe existe déjà");
             }
         }
-        if (urlImage == null || urlImage.equals("")) {
-            ex.addMessage("urlImage", "Veuillez spécifier une image");
-        }
         if (!approbation) {
             ex.addMessage("approbation", "Vous devez accepter les conditions.");
         }
@@ -85,6 +82,10 @@ public class InscriptionServiceImpl implements InscriptionService {
         if (ex.mustBeThrown()) {
             throw ex;
         }
+        if (urlImage == null || urlImage.equals("")) {
+            urlImage = MyTekUtils.getProperty("aucuneImage");
+        }
+
         groupeDao.save(new Groupe(nomGroupe, urlImage));
         return new InscriptionGroupe(nomGroupe, urlImage);
     }

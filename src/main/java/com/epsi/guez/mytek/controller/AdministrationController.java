@@ -50,7 +50,7 @@ public class AdministrationController {
     }
 
     @RequestMapping(value = ApplicationUrl.INSCRIPTION, method = RequestMethod.GET)
-    public String inscription(HttpServletRequest req, ModelMap modelMap) {
+    public String inscription(ModelMap modelMap) {
         List<Groupe> groupes = groupeService.findAll();
         modelMap.put("groupes", groupes);
         modelMap.put("errors", new HashMap<>());
@@ -125,6 +125,8 @@ public class AdministrationController {
 
     @RequestMapping(value = ApplicationUrl.CREER_GROUPE, method = RequestMethod.GET)
     public String creerGroupe(ModelMap modelMap) {
+        List<Groupe> groupes = groupeService.findAll();
+        modelMap.put("groupes", groupes);
         modelMap.put("errors", new HashMap<>());
         return PageMapping.CREER_GROUPE;
     }
@@ -140,14 +142,13 @@ public class AdministrationController {
             Long id = (Long) session.getAttribute("id");
             Utilisateur utilisateur = utilisateurService.findOneById(id);
             InscriptionGroupe inscriptionGroupe = inscriptionService.inscrireGroupe(nomGroupe, urlImage, approbation, utilisateur);
-            modelMap.put("nomGroupe", inscriptionGroupe.getNom());
-            modelMap.put("urlImage", inscriptionGroupe.getUrlImage());
-            modelMap.put("date", inscriptionGroupe.getDate());
-
-            // sûrement mettre un session.setAttribute() ici
+            session.setAttribute("dernierGroupeCree", inscriptionGroupe.getNom());
+            session.setAttribute("urlDernierGroupeCree", inscriptionGroupe.getUrlImage());
 
             return REDIRECT + ApplicationUrl.CREATION_GROUPE_VALIDEE;
         } catch (FormInvalideException e) {
+            List<Groupe> groupes = groupeService.findAll();
+            modelMap.put("groupes", groupes);
             modelMap.put("errors", e.getMessages());
             return PageMapping.CREER_GROUPE;
         }
@@ -155,8 +156,50 @@ public class AdministrationController {
 
     @RequestMapping(value = ApplicationUrl.CREATION_GROUPE_VALIDEE, method = RequestMethod.GET)
     public String creationGroupeValidee(HttpServletRequest req, ModelMap modelMap) {
+        HttpSession session = req.getSession();
+        modelMap.put("nomGroupe", session.getAttribute("dernierGroupeCree"));
+        modelMap.put("urlImage", session.getAttribute("urlDernierGroupeCree"));
         modelMap.put("errors", new HashMap<>());
         return PageMapping.CREATION_GROUPE_VALIDEE;
+    }
+
+    @RequestMapping(value = ApplicationUrl.REJOINDRE_GROUPE, method = RequestMethod.GET)
+    public String rejoindreGroupe(ModelMap modelMap) {
+        List<Groupe> groupes = groupeService.findAll();
+        modelMap.put("groupes", groupes);
+        modelMap.put("errors", new HashMap<>());
+        return PageMapping.REJOINDRE_GROUPE;
+    }
+
+    @RequestMapping(value = ApplicationUrl.REJOINDRE_GROUPE, method = RequestMethod.POST)
+    public String rejoindreGroupePost(ModelMap modelMap, HttpServletRequest req, RedirectAttributes redirectAttributes) {
+        HttpSession session = req.getSession();
+        Long idUtilisateur = (Long) session.getAttribute("id");
+        Long idGroupe = Long.valueOf(req.getParameter("groupe"));
+        try {
+            utilisateurService.setGroupeUtilisateur(idUtilisateur, idGroupe);
+            redirectAttributes.addFlashAttribute("success", "Vous êtes maintenant affecté au groupe " + groupeService.findOneById(idGroupe).getNomGroupe() + ".");
+            return REDIRECT + ApplicationUrl.REJOINDRE_GROUPE;
+        } catch (FormInvalideException ex) {
+            List<Groupe> groupes = groupeService.findAll();
+            modelMap.put("groupes", groupes);
+            modelMap.put("errors", ex.getMessages());
+            return PageMapping.REJOINDRE_GROUPE;
+        }
+    }
+
+    @RequestMapping(value = ApplicationUrl.VOIR_COMPTE, method = RequestMethod.GET)
+    public String voirCompte(HttpServletRequest req, ModelMap modelMap) {
+        HttpSession session = req.getSession();
+        modelMap.put("nom", session.getAttribute("nom"));
+        modelMap.put("prenom", session.getAttribute("prenom"));
+        modelMap.put("email", session.getAttribute("email"));
+
+        // changer ici par tous les groupes de l'utilisateur
+        List<Groupe> groupes = groupeService.findAll();
+
+        modelMap.put("groupes", groupes);
+        return PageMapping.VOIR_COMPTE;
     }
 }
 

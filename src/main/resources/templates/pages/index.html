@@ -100,21 +100,24 @@
     <br>
     <a th:href="@{/connexion}"> Connexion </a>
     <br>
-    <a th:href="@{/creerGroupe}"> Créer un groupe </a>
-    <br>
     <a th:href="@{/voirFilms}"> Voir tous les films </a>
     <br>
     <a th:href="@{/ajouterFilm}"> Ajouter un film </a>
+    <br>
+    <a th:href="@{/creerGroupe}"> Créer un groupe </a>
+    <br>
+    <a th:href="@{/rejoindreGroupe}">Rejoindre un groupe </a>
 
 
     <form th:action="@{/deconnexion}" method="post">
-        <button type="submit">Se déconnecter </button>
+        <button type="submit">Se déconnecter</button>
     </form>
 </div>
 
 <div>
-    <h2>Compte : </h2> <span style="text-align: center" th:text="${session.prenom != null and session.nom != null} ? ${session.prenom + ' ' + session.nom} : 'Non connecté'">someValue</span>
-
+    <h2>Compte : </h2> <a th:href="@{'/voirCompte/'}"><span style="text-align: center"
+                                                                   th:text="${session.prenom != null and session.nom != null} ? ${session.prenom + ' ' + session.nom} : 'Non connecté'"></span>
+</a>
 </div>
 
 <script>

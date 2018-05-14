@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://wwwthymeleaf.org">
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>MyTek - Mes informations personnelles </title>
+    <style type="text/css">
+        div > table {
+            text-align: center;
+        }
+
+        .error-message {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+
+<h2>Mon compte</h2>
+<br>
+<b>Nom : </b>
+<span th:text="${session.nom != null} ? ${session.nom}"></span>
+<br>
+<b>Prenom : </b>
+<span th:text="${session.prenom != null} ? ${session.prenom}"></span>
+<br>
+<b>Email : </b>
+<span th:text="${session.email != null} ? ${session.email}"></span>
+
+<br>
+<b>Groupes : </b>
+<span th:each="groupe : ${groupes}" th:text="${groupe.nomGroupe} + ' | '"> </span>
+<br>
+
+<div>
+    <a th:href="@{/}"> Retour à l'accueil</a>
+</div>
+</body>
+</html>

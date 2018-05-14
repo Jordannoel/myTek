@@ -1,5 +1,6 @@
 package com.epsi.guez.mytek.service;
 
+import com.epsi.guez.mytek.exception.FormInvalideException;
 import com.epsi.guez.mytek.model.Utilisateur;
 
 public interface UtilisateurService {
@@ -13,4 +14,6 @@ public interface UtilisateurService {
     Utilisateur findOneById(Long id);
 
     Utilisateur findOneByEmail(String email);
+
+    void setGroupeUtilisateur(Long idUtilisateur, Long idGroupe) throws FormInvalideException;
 }

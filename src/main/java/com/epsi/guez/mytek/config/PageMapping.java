@@ -13,6 +13,8 @@ public class PageMapping {
     public static final String INSCRIPTION_VALIDEE = "pages/administration/inscriptionValidee";
     public static final String CREER_GROUPE = "pages/administration/creerGroupe";
     public static final String CREATION_GROUPE_VALIDEE = "pages/administration/creationGroupeValidee";
+    public static final String REJOINDRE_GROUPE = "pages/administration/rejoindreGroupe";
+    public static final String VOIR_COMPTE = "pages/administration/voirCompte";
 
     public static final String AJOUTER_FILM = "pages/films/ajouterFilm";
     public static final String VOIR_FILMS = "pages/films/voirFilms";

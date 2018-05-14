@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://wwwthymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>MyTek - Rejoindre un groupe</title>
+
+    <style type="text/css">
+        form > div {
+            padding: .5em;
+        }
+
+        div > label:first-child {
+            display: inline-block;
+            min-width: 18em;
+        }
+
+        .error-message {
+            color: red;
+        }
+
+        #success {
+            color: limegreen;
+        }
+    </style>
+</head>
+<body>
+<form method="post" accept-charset="utf-8">
+    <div>
+        <select class="form-control" name="groupe" id="dropGroupe">
+            <option value="0" th:text="'Séléctionner un groupe...'"></option>
+            <option th:each="groupe : ${groupes}" th:value="${groupe.id}" th:text="${groupe.nomGroupe}"></option>
+        </select>
+        <span class="error-message" th:text="${errors.get('connexion')}"></span>
+        <span class="error-message" th:text="${errors.get('groupe')}"></span>
+    </div>
+    <button type="submit"> Rejoindre</button>
+</form>
+<div id="success">
+    <span th:text="${success}"></span>
+</div>
+
+<div>
+    <a th:href="@{/index}"> Retour à l'accueil</a>
+</div>
+
+</body>
+</html>

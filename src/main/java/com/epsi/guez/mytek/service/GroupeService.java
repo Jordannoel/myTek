@@ -9,4 +9,8 @@ public interface GroupeService {
     List<Groupe> findAll();
 
     Groupe findOneById(Long id);
+
+    public Groupe findOneByNomGroupe(String nomGroupe);
+
+    boolean nomGroupeDejaExistant(String nomGroupe);
 }

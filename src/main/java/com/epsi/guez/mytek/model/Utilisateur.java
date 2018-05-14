@@ -47,10 +47,18 @@ public class Utilisateur {
         this.nom = nom;
         this.email = email;
         this.motDePasse = motDePasse;
-        addGroupe(groupe);
+        this.groupes.add(groupe);
     }
 
-    public void addGroupe(Groupe groupe) {
+    public Utilisateur(String prenom, String nom, String email, String motDePasse, List<Groupe> groupes) {
+        this.prenom = prenom;
+        this.nom = nom;
+        this.email = email;
+        this.motDePasse = motDePasse;
+        this.groupes = groupes;
+    }
+
+    public void addGroupe(Groupe groupe){
         this.groupes.add(groupe);
     }
 }

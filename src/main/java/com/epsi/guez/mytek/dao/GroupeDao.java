@@ -14,4 +14,6 @@ public interface GroupeDao extends JpaRepository<Groupe, Long> {
     Groupe findOneById(Long id);
 
     Groupe findOneByNomGroupe(String nomGroupe);
+
+    int countByNomGroupe(String nomGroupe);
 }
