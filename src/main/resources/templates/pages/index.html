@@ -19,44 +19,54 @@
 <div style="padding-left:16px">
     <h2>Accueil</h2>
 </div>
-<a href="#" class="btn btn-primary my-2">Main call to action</a>
 
 <div>
-    <button class="btn btn-primary">aaaaaaa</button>
-    <a class="btn btn-primary" role="button" th:href="@{/inscription}"> Inscription </a>
-    <br>
-    <a th:href="@{/connexion}"> Connexion </a>
-    <br>
-    <a th:href="@{/voirFilms}"> Voir tous les films </a>
-    <br>
-    <a th:href="@{/ajouterFilm}"> Ajouter un film </a>
-    <br>
-    <a th:href="@{/creerGroupe}"> Créer un groupe </a>
-    <br>
-    <a th:href="@{/rejoindreGroupe}">Rejoindre un groupe </a>
-
-
-    <form th:action="@{/deconnexion}" method="post">
-        <button type="submit">Se déconnecter</button>
-    </form>
+    <div th:if="${session.id == null}">
+        <a class="btn btn-primary" role="button" th:href="@{/inscription}"> Inscription </a>
+        <br>
+    </div>
+    <div th:if="${session.id == null}">
+        <a class="btn btn-primary" role="button" th:href="@{/connexion}"> Connexion </a>
+        <br>
+    </div>
+    <div>
+        <a class="btn btn-primary" role="button" th:href="@{/voirFilms}"> Voir tous les films </a>
+        <br>
+    </div>
+    <div th:if="${session.id != null}">
+        <a class="btn btn-primary" role="button" th:href="@{/ajouterFilm}"> Ajouter un film </a>
+        <br>
+    </div>
+    <div th:if="${session.id != null}">
+        <a class="btn btn-primary" role="button" th:href="@{/creerGroupe}"> Créer un groupe </a>
+        <br>
+    </div>
+    <div th:if="${session.id != null}">
+        <a class="btn btn-primary" role="button" th:href="@{/rejoindreGroupe}">Rejoindre un groupe </a>
+        <br>
+    </div>
+    <div th:if="${session.id != null}">
+        <a class="btn btn-primary" role="button" th:href="@{/voirGroupes}">Voir les groupe </a>
+    </div>
+    <div th:if="${session.id != null}">
+        <form th:action="@{/deconnexion}" method="post">
+            <button type="submit"
+            >Se déconnecter
+            </button>
+        </form>
+    </div>
 </div>
 
-<div>
+<div th:if="${session.id != null}">
     <h2>Compte : </h2> <a th:href="@{'/voirCompte/'}"><span style="text-align: center"
-                                                                   th:text="${session.prenom != null and session.nom != null} ? ${session.prenom + ' ' + session.nom} : 'Non connecté'"></span>
+                                                            th:text="${session.prenom != null and session.nom != null} ? ${session.prenom + ' ' + session.nom} : 'Non connecté'"></span>
 </a>
 </div>
 
-<script>
-    function myFunction() {
-        var x = document.getElementById("myTopnav");
-        if (x.className === "topnav") {
-            x.className += " responsive";
-        } else {
-            x.className = "topnav";
-        }
-    }
-</script>
-
 </body>
 </html>
+
+<div>
+
+
+</div>

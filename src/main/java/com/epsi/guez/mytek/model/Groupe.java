@@ -22,8 +22,8 @@ public class Groupe {
     @Column(name = "image")
     private String urlImage;
 
-    @ManyToMany(mappedBy = "groupes")
-    private List<Utilisateur> utilisateurs = new ArrayList<>();
+//    @ManyToMany(mappedBy = "groupes")
+//    private List<Utilisateur> utilisateurs = new ArrayList<>();
 
     public Groupe() {
     }

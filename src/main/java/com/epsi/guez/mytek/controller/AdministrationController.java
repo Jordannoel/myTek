@@ -2,24 +2,22 @@ package com.epsi.guez.mytek.controller;
 
 import com.epsi.guez.mytek.config.ApplicationUrl;
 import com.epsi.guez.mytek.config.PageMapping;
-import com.epsi.guez.mytek.exception.FormInvalideException;
+import com.epsi.guez.mytek.exception.MyTekException;
 import com.epsi.guez.mytek.model.Groupe;
 import com.epsi.guez.mytek.model.InscriptionGroupe;
 import com.epsi.guez.mytek.model.Utilisateur;
-import com.epsi.guez.mytek.service.ConnexionService;
-import com.epsi.guez.mytek.service.GroupeService;
-import com.epsi.guez.mytek.service.InscriptionService;
-import com.epsi.guez.mytek.service.UtilisateurService;
+import com.epsi.guez.mytek.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -39,13 +37,16 @@ public class AdministrationController {
     @Autowired
     private UtilisateurService utilisateurService;
 
+    @Autowired
+    private UtilisateurGroupeService utilisateurGroupeService;
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home() {
         return PageMapping.INDEX;
     }
 
     @RequestMapping(value = ApplicationUrl.INDEX, method = RequestMethod.GET)
-    public String index() {
+    public String index(ModelMap modelMap) {
         return PageMapping.INDEX;
     }
 
@@ -53,7 +54,6 @@ public class AdministrationController {
     public String inscription(ModelMap modelMap) {
         List<Groupe> groupes = groupeService.findAll();
         modelMap.put("groupes", groupes);
-        modelMap.put("errors", new HashMap<>());
         return PageMapping.INSCRIPTION;
     }
 
@@ -69,13 +69,15 @@ public class AdministrationController {
         try {
             inscriptionService.inscrireUtilisateur(prenom, nom, email, motDePasse, confirmationMotDePasse, idGroupe, approbation);
             Utilisateur utilisateur = connexionService.connecterUtilisateur(email, motDePasse);
+            List<Long> groupeIds = utilisateurGroupeService.findAllGroupesIdByAdminId(utilisateur.getId());
             HttpSession session = req.getSession();
             session.setAttribute("prenom", utilisateur.getPrenom());
             session.setAttribute("nom", utilisateur.getNom());
             session.setAttribute("email", utilisateur.getEmail());
             session.setAttribute("id", utilisateur.getId());
+            session.setAttribute("groupes", groupeIds);
             return REDIRECT + ApplicationUrl.INSCRIPTION_VALIDEE;
-        } catch (FormInvalideException e) {
+        } catch (MyTekException e) {
             List<Groupe> groupes = groupeService.findAll();
             modelMap.put("groupes", groupes);
             modelMap.put("errors", e.getMessages());
@@ -94,7 +96,6 @@ public class AdministrationController {
 
     @RequestMapping(value = ApplicationUrl.CONNEXION, method = RequestMethod.GET)
     public String connexion(ModelMap modelMap) {
-        modelMap.put("errors", new HashMap<>());
         return PageMapping.CONNEXION;
     }
 
@@ -104,13 +105,15 @@ public class AdministrationController {
         String motDePasse = req.getParameter("motDePasse");
         try {
             Utilisateur utilisateur = connexionService.connecterUtilisateur(email, motDePasse);
+            List<Long> groupeIds = utilisateurGroupeService.findAllGroupesIdByAdminId(utilisateur.getId());
             HttpSession session = req.getSession();
             session.setAttribute("prenom", utilisateur.getPrenom());
             session.setAttribute("nom", utilisateur.getNom());
             session.setAttribute("email", utilisateur.getEmail());
             session.setAttribute("id", utilisateur.getId());
+            session.setAttribute("groupes", groupeIds);
             return REDIRECT + ApplicationUrl.INDEX;
-        } catch (FormInvalideException e) {
+        } catch (MyTekException e) {
             modelMap.put("errors", e.getMessages());
             return PageMapping.CONNEXION;
         }
@@ -127,7 +130,6 @@ public class AdministrationController {
     public String creerGroupe(ModelMap modelMap) {
         List<Groupe> groupes = groupeService.findAll();
         modelMap.put("groupes", groupes);
-        modelMap.put("errors", new HashMap<>());
         return PageMapping.CREER_GROUPE;
     }
 
@@ -137,16 +139,16 @@ public class AdministrationController {
         String nomGroupe = req.getParameter("nomGroupe");
         String urlImage = req.getParameter("urlImage");
         boolean approbation = Boolean.valueOf(req.getParameter("approbation"));
+        HttpSession session = req.getSession();
+        Long id = (Long) session.getAttribute("id");
+        Utilisateur utilisateur = utilisateurService.findOneById(id);
         try {
-            HttpSession session = req.getSession();
-            Long id = (Long) session.getAttribute("id");
-            Utilisateur utilisateur = utilisateurService.findOneById(id);
             InscriptionGroupe inscriptionGroupe = inscriptionService.inscrireGroupe(nomGroupe, urlImage, approbation, utilisateur);
             session.setAttribute("dernierGroupeCree", inscriptionGroupe.getNom());
             session.setAttribute("urlDernierGroupeCree", inscriptionGroupe.getUrlImage());
 
             return REDIRECT + ApplicationUrl.CREATION_GROUPE_VALIDEE;
-        } catch (FormInvalideException e) {
+        } catch (MyTekException e) {
             List<Groupe> groupes = groupeService.findAll();
             modelMap.put("groupes", groupes);
             modelMap.put("errors", e.getMessages());
@@ -159,7 +161,6 @@ public class AdministrationController {
         HttpSession session = req.getSession();
         modelMap.put("nomGroupe", session.getAttribute("dernierGroupeCree"));
         modelMap.put("urlImage", session.getAttribute("urlDernierGroupeCree"));
-        modelMap.put("errors", new HashMap<>());
         return PageMapping.CREATION_GROUPE_VALIDEE;
     }
 
@@ -167,7 +168,6 @@ public class AdministrationController {
     public String rejoindreGroupe(ModelMap modelMap) {
         List<Groupe> groupes = groupeService.findAll();
         modelMap.put("groupes", groupes);
-        modelMap.put("errors", new HashMap<>());
         return PageMapping.REJOINDRE_GROUPE;
     }
 
@@ -180,7 +180,7 @@ public class AdministrationController {
             utilisateurService.setGroupeUtilisateur(idUtilisateur, idGroupe);
             redirectAttributes.addFlashAttribute("success", "Vous êtes maintenant affecté au groupe " + groupeService.findOneById(idGroupe).getNomGroupe() + ".");
             return REDIRECT + ApplicationUrl.REJOINDRE_GROUPE;
-        } catch (FormInvalideException ex) {
+        } catch (MyTekException ex) {
             List<Groupe> groupes = groupeService.findAll();
             modelMap.put("groupes", groupes);
             modelMap.put("errors", ex.getMessages());
@@ -188,18 +188,65 @@ public class AdministrationController {
         }
     }
 
+    @RequestMapping(value = ApplicationUrl.VOIR_GROUPES, method = RequestMethod.GET)
+    public String voirGroupes(ModelMap modelMap, HttpServletRequest req) {
+        List<Groupe> groupes = groupeService.findAll();
+        modelMap.put("groupes", groupes);
+        return PageMapping.VOIR_GROUPES;
+    }
+
+    @RequestMapping(value = ApplicationUrl.GROUPE + "/{idGroupe}", method = RequestMethod.GET)
+    public String groupe(ModelMap modelMap, HttpServletRequest req, @PathVariable(value = "idGroupe") Long idGroupe, RedirectAttributes redirectAttributes) {
+        HttpSession session = req.getSession();
+        Long idUtilisateur = (Long) session.getAttribute("id");
+        try {
+            utilisateurService.utilisateurConnecte(idUtilisateur);
+            utilisateurService.utilisateurPeutVoirGroupe(idUtilisateur, idGroupe);
+
+            Groupe groupe = groupeService.findOneById(idGroupe);
+            List<Long> adminIds = utilisateurGroupeService.findAllAdminIdByGroupeId(idGroupe);
+            List<Long> membresIds = utilisateurGroupeService.findAllMembresIdByGroupeId(idGroupe);
+            List<Utilisateur> admins = new ArrayList<>();
+            List<Utilisateur> membres = new ArrayList<>();
+            if (adminIds.size() != 0) {
+                admins = utilisateurService.findAllByIdIn(adminIds);
+            }
+            if (membresIds.size() != 0) {
+                membres = utilisateurService.findAllByIdIn(membresIds);
+            }
+            modelMap.put("groupe", groupe);
+            modelMap.put("admins", admins);
+            modelMap.put("membres", membres);
+            return PageMapping.GROUPE;
+        } catch (MyTekException ex) {
+            redirectAttributes.addFlashAttribute("errors", ex.getMessages());
+            return REDIRECT + ApplicationUrl.VOIR_GROUPES;
+        }
+    }
+
     @RequestMapping(value = ApplicationUrl.VOIR_COMPTE, method = RequestMethod.GET)
     public String voirCompte(HttpServletRequest req, ModelMap modelMap) {
         HttpSession session = req.getSession();
-        modelMap.put("nom", session.getAttribute("nom"));
-        modelMap.put("prenom", session.getAttribute("prenom"));
-        modelMap.put("email", session.getAttribute("email"));
-
-        // changer ici par tous les groupes de l'utilisateur
-        List<Groupe> groupes = groupeService.findAll();
-
-        modelMap.put("groupes", groupes);
+        List<Long> groupeIds = utilisateurGroupeService.findAllGroupesIdByUtilisateurId((Long) session.getAttribute("id"));
+        if (groupeIds.size() != 0) {
+            List<Groupe> groupes = groupeService.findAllByIdIn(groupeIds);
+            modelMap.put("groupes", groupes);
+        }
         return PageMapping.VOIR_COMPTE;
+    }
+
+    @RequestMapping(value = ApplicationUrl.RENDRE_ADMINISTRATEUR + "/{idMembre}/{idGroupe}", method = RequestMethod.POST)
+    public String rendreAdministrateur(HttpServletRequest req, @PathVariable(value = "idMembre") Long idMembre,
+                                       @PathVariable(value = "idGroupe") Long idGroupe, RedirectAttributes redirectAttributes) {
+        HttpSession session = req.getSession();
+        Long idAdmin = (Long) session.getAttribute("id");
+        try {
+            utilisateurGroupeService.rendreMembreAdministrateur(idAdmin, idMembre, idGroupe);
+            return REDIRECT + ApplicationUrl.GROUPE + "/" + idGroupe;
+        } catch (MyTekException ex) {
+            redirectAttributes.addFlashAttribute("errors", ex.getMessages());
+            return REDIRECT + ApplicationUrl.GROUPE + "/" + idGroupe;
+        }
     }
 }
 

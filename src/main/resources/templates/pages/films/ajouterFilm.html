@@ -30,29 +30,29 @@
     <div>
         <label for="titre"><b>Titre : </b></label>
         <input id="titre" name="titre" type="text" value=''>
-        <span class="error-message" th:text="${errors.get('titre')}"></span>
+        <span class="error-message" th:if="${errors != null}" th:text="${errors.get('titre')}"></span>
     </div>
     <div>
         <label for="affiche">Lien de l'affiche : </label>
         <input id="affiche" name="affiche" type="text" value=''>
-        <span class="error-message" th:text="${errors.get('affiche')}"></span>
+        <span class="error-message" th:if="${errors != null}" th:text="${errors.get('affiche')}"></span>
     </div>
     <div>
         <label for="nationalite">Nationalité : </label>
         <input id="nationalite" name="nationalite" type="text" value=''>
-        <span class="error-message" th:text="${errors.get('nationalite')}"></span>
+        <span class="error-message" th:if="${errors != null}" th:text="${errors.get('nationalite')}"></span>
     </div>
     <div>
         <label for="titreOriginal">Titre original : </label>
         <input id="titreOriginal" name="titreOriginal" type="text">
-        <span class="error-message" th:text="${errors.get('titreOriginal')}"></span>
+        <span class="error-message" th:if="${errors != null}" th:text="${errors.get('titreOriginal')}"></span>
     </div>
     <div>
         <select class="form-control" name="genre" id="dropGenre">
             <option value="0" th:text="'Séléctionner un genre...'" ></option>
             <option th:each="genre : ${genres}" th:value="${genre.libelle}" th:text="${genre.libelle}"></option>
         </select>
-        <span class="error-message" th:text="${errors.get('genre')}"></span>
+        <span class="error-message" th:if="${errors != null}" th:text="${errors.get('genre')}"></span>
     </div>
     <div>
         <button type="submit">Ajouter</button>

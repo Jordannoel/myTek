@@ -1,6 +1,6 @@
 package com.epsi.guez.mytek.service;
 
-import com.epsi.guez.mytek.exception.FormInvalideException;
+import com.epsi.guez.mytek.exception.MyTekException;
 import com.epsi.guez.mytek.model.Film;
 
 import java.util.List;
@@ -10,5 +10,5 @@ public interface FilmService {
 
     Film findById(Long id);
 
-    void ajouterFilm(String titre, String affiche, String nationalite, String titreOriginal, String genre) throws FormInvalideException;
+    void ajouterFilm(String titre, String affiche, String nationalite, String titreOriginal, String genre, Long idUtilisateur) throws MyTekException;
 }

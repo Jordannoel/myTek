@@ -2,8 +2,8 @@ package com.epsi.guez.mytek.dao;
 
 import com.epsi.guez.mytek.model.Utilisateur;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,7 +17,6 @@ public interface UtilisateurDao extends JpaRepository<Utilisateur, Long> {
 
     Utilisateur findOneById(Long id);
 
-    /*@Modifying
-    @Query("update Utilisateur u set u. = ?1, u.lastname = ?2 where u.id = ?1")
-    void setUtilisateurGroupeById(Long id, String nomGroupe);*/
+    @Query("SELECT distinct u FROM Utilisateur u WHERE u.id in :ids ")
+    List<Utilisateur> findAllByIdIn(@Param("ids")List<Long> ids);
 }

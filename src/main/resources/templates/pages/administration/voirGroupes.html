@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://wwwthymeleaf.org">
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>MyTek - Voir les groupes </title>
+    <style type="text/css">
+        div > table {
+            text-align: center;
+        }
+
+        .error-message {
+            color: red;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+
+<h2 style="text-align:center">Voir les groupes</h2>
+<p style="text-align:center">Cliquez sur l'image d'un groupe voir les détails (si vous en faites partie)</p>
+<br>
+
+<div style="overflow-x:auto">
+    <table>
+        <tr>
+            <th>Nom</th>
+            <th>Avatar de groupe</th>
+        </tr>
+        <tr th:each="groupe : ${groupes}">
+            <td><h2 th:text="${groupe.nomGroupe}"></h2></td>
+            <td><a th:href="@{'/groupe/' + ${groupe.id}}"><img th:src="${groupe.urlImage}" alt="groupe"
+                                                               style="max-width:200px;"/></a></td>
+        </tr>
+    </table>
+</div>
+<span class="error-message" th:if="${errors != null}" th:text="${errors.get('connexion')}"></span>
+<span class="error-message" th:if="${errors != null}" th:text="${errors.get('permission')}"></span>
+
+<div>
+    <a th:href="@{/}"> Retour à l'accueil</a>
+</div>
+</body>
+</html>

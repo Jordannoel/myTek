@@ -3,7 +3,7 @@ package com.epsi.guez.mytek.exception;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FormInvalideException extends Exception {
+public class MyTekException extends Exception {
 
     private static final long serialVersionUID = 1L;
 

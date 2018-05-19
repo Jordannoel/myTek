@@ -24,13 +24,13 @@ public class Utilisateur {
 
     private String motDePasse;
 
-    @ManyToMany
-    @JoinTable(
-            name = "groupe_utilisateur",
-            joinColumns = {@JoinColumn(name = "utilisateur_id")},
-            inverseJoinColumns = {@JoinColumn(name = "groupe_id")}
-    )
-    private List<Groupe> groupes = new ArrayList<>();
+//    @ManyToMany
+//    @JoinTable(
+//            name = "groupe_utilisateur",
+//            joinColumns = {@JoinColumn(name = "utilisateur_id")},
+//            inverseJoinColumns = {@JoinColumn(name = "groupe_id")}
+//    )
+//    private List<Groupe> groupes = new ArrayList<>();
 
     public Utilisateur() {
     }
@@ -40,25 +40,5 @@ public class Utilisateur {
         this.nom = nom;
         this.email = email;
         this.motDePasse = motDePasse;
-    }
-
-    public Utilisateur(String prenom, String nom, String email, String motDePasse, Groupe groupe) {
-        this.prenom = prenom;
-        this.nom = nom;
-        this.email = email;
-        this.motDePasse = motDePasse;
-        this.groupes.add(groupe);
-    }
-
-    public Utilisateur(String prenom, String nom, String email, String motDePasse, List<Groupe> groupes) {
-        this.prenom = prenom;
-        this.nom = nom;
-        this.email = email;
-        this.motDePasse = motDePasse;
-        this.groupes = groupes;
-    }
-
-    public void addGroupe(Groupe groupe){
-        this.groupes.add(groupe);
     }
 }

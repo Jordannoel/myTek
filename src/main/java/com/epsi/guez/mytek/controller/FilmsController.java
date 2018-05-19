@@ -2,7 +2,7 @@ package com.epsi.guez.mytek.controller;
 
 import com.epsi.guez.mytek.config.ApplicationUrl;
 import com.epsi.guez.mytek.config.PageMapping;
-import com.epsi.guez.mytek.exception.FormInvalideException;
+import com.epsi.guez.mytek.exception.MyTekException;
 import com.epsi.guez.mytek.model.Film;
 import com.epsi.guez.mytek.model.enums.GenreEnum;
 import com.epsi.guez.mytek.service.FilmService;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +32,6 @@ public class FilmsController {
     public String ajouterFilm(ModelMap modelMap) {
         List<GenreEnum> genres = Arrays.asList(GenreEnum.values());
         modelMap.put("genres", genres);
-        modelMap.put("errors", new HashMap<>());
         return PageMapping.AJOUTER_FILM;
     }
 
@@ -42,11 +42,13 @@ public class FilmsController {
         String nationalite = req.getParameter("nationalite");
         String titreOriginal = req.getParameter("titreOriginal");
         String genre = req.getParameter("genre");
+        HttpSession session = req.getSession();
         try {
-            filmService.ajouterFilm(titre, affiche, nationalite, titreOriginal, genre);
+            Long idUtilisateur = (Long) session.getAttribute("id");
+            filmService.ajouterFilm(titre, affiche, nationalite, titreOriginal, genre, idUtilisateur);
             redirectAttributes.addFlashAttribute("success", "Votre film a bien été ajouté");
             return REDIRECT + ApplicationUrl.AJOUTER_FILM;
-        } catch (FormInvalideException ex) {
+        } catch (MyTekException ex) {
             modelMap.put("errors", ex.getMessages());
             return PageMapping.AJOUTER_FILM;
         }

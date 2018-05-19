@@ -1,7 +1,6 @@
 package com.epsi.guez.mytek.service.impl;
 
 import com.epsi.guez.mytek.dao.GroupeDao;
-import com.epsi.guez.mytek.exception.FormInvalideException;
 import com.epsi.guez.mytek.model.Groupe;
 import com.epsi.guez.mytek.service.GroupeService;
 import org.springframework.stereotype.Service;
@@ -32,6 +31,21 @@ public class GroupeServiceImpl implements GroupeService {
 
     public boolean nomGroupeDejaExistant(String nomGroupe) {
         return groupeDao.countByNomGroupe(nomGroupe) > 0;
+    }
+
+    @Override
+    public List<Groupe> findAllGroupeAdministres(Long idAdmin) {
+        return null;
+    }
+
+    @Override
+    public List<Groupe> findAllGroupeAppartenant(Long idUtilisateur) {
+        return null;
+    }
+
+    @Override
+    public List<Groupe> findAllByIdIn(List<Long> ids) {
+        return groupeDao.findAllByIdIn(ids);
     }
 
 }

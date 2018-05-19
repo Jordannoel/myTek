@@ -30,8 +30,8 @@
             <option value="0" th:text="'Séléctionner un groupe...'"></option>
             <option th:each="groupe : ${groupes}" th:value="${groupe.id}" th:text="${groupe.nomGroupe}"></option>
         </select>
-        <span class="error-message" th:text="${errors.get('connexion')}"></span>
-        <span class="error-message" th:text="${errors.get('groupe')}"></span>
+        <span class="error-message" th:if="${errors != null}" th:text="${errors.get('connexion')}"></span>
+        <span class="error-message" th:if="${errors != null}" th:text="${errors.get('groupe')}"></span>
     </div>
     <button type="submit"> Rejoindre</button>
 </form>

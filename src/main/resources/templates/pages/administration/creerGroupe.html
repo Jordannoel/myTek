@@ -19,12 +19,12 @@
 <h1> Créer un groupe </h1>
 
 <form method="post" accept-charset="utf-8">
-    <h2 class = error-message th:text="${errors.get('utilisateur')}"></h2>
+    <h2 class = error-message th:if="${errors != null}" th:text="${errors.get('utilisateur')}"></h2>
 
     <div>
         <label for="nomGroupe">Nom du groupe : </label>
         <input id="nomGroupe" name="nomGroupe" type="text" value=''>
-        <span class="error-message" th:text="${errors.get('nomGroupe')}"></span>
+        <span class="error-message" th:if="${errors != null}" th:text="${errors.get('nomGroupe')}"></span>
     </div>
 
     <div style="background-color: #f1f1f1">
@@ -36,12 +36,12 @@
     <div>
         <label for="urlImage">Avatar : </label>
         <input id="urlImage" name="urlImage" type="text" value=''>
-        <span class="error-message" th:text="${errors.get('urlImage')}"></span>
+        <span class="error-message" th:if="${errors != null}" th:text="${errors.get('urlImage')}"></span>
     </div>
     <div>
         <input id="approbation" name="approbation" value="true" type="checkbox">
         <label for="approbation">J'ai lu et approuvé les conditions générales de ce site</label>
-        <span class="error-message" th:text="${errors.get('approbation')}"></span>
+        <span class="error-message" th:if="${errors != null}" th:text="${errors.get('approbation')}"></span>
     </div>
     <div>
         <button type="submit">Créer</button>

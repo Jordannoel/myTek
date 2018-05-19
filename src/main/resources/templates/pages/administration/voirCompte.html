@@ -30,7 +30,9 @@
 
 <br>
 <b>Groupes : </b>
-<span th:each="groupe : ${groupes}" th:text="${groupe.nomGroupe} + ' | '"> </span>
+<div th:if="${groupes != null}">
+    <span th:each="groupe : ${groupes}" th:text="${groupe.nomGroupe} + ' | '"> </span>
+</div>
 <br>
 
 <div>

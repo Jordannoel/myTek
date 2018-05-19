@@ -1,7 +1,9 @@
 package com.epsi.guez.mytek.service;
 
-import com.epsi.guez.mytek.exception.FormInvalideException;
+import com.epsi.guez.mytek.exception.MyTekException;
 import com.epsi.guez.mytek.model.Utilisateur;
+
+import java.util.List;
 
 public interface UtilisateurService {
 
@@ -15,5 +17,11 @@ public interface UtilisateurService {
 
     Utilisateur findOneByEmail(String email);
 
-    void setGroupeUtilisateur(Long idUtilisateur, Long idGroupe) throws FormInvalideException;
+    void setGroupeUtilisateur(Long idUtilisateur, Long idGroupe) throws MyTekException;
+
+    List<Utilisateur> findAllByIdIn(List<Long> ids);
+
+    void utilisateurConnecte(Long id) throws MyTekException;
+
+    void utilisateurPeutVoirGroupe(Long idUtilisateur, Long idGroupe) throws MyTekException;
 }

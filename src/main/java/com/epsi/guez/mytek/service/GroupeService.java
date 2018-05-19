@@ -10,7 +10,13 @@ public interface GroupeService {
 
     Groupe findOneById(Long id);
 
-    public Groupe findOneByNomGroupe(String nomGroupe);
+    Groupe findOneByNomGroupe(String nomGroupe);
 
     boolean nomGroupeDejaExistant(String nomGroupe);
+
+    List<Groupe> findAllGroupeAdministres(Long idAdmin);
+
+    List<Groupe> findAllGroupeAppartenant(Long idUtilisateur);
+
+    List<Groupe> findAllByIdIn(List<Long> ids);
 }

@@ -3,10 +3,12 @@ package com.epsi.guez.mytek.service.impl;
 import com.epsi.guez.mytek.Utils.MyTekUtils;
 import com.epsi.guez.mytek.dao.GroupeDao;
 import com.epsi.guez.mytek.dao.UtilisateurDao;
-import com.epsi.guez.mytek.exception.FormInvalideException;
+import com.epsi.guez.mytek.dao.UtilisateurGroupeDao;
+import com.epsi.guez.mytek.exception.MyTekException;
 import com.epsi.guez.mytek.model.Groupe;
 import com.epsi.guez.mytek.model.InscriptionGroupe;
 import com.epsi.guez.mytek.model.Utilisateur;
+import com.epsi.guez.mytek.model.UtilisateurGroupe;
 import com.epsi.guez.mytek.service.InscriptionService;
 import org.springframework.stereotype.Service;
 
@@ -17,15 +19,18 @@ public class InscriptionServiceImpl implements InscriptionService {
 
     private GroupeDao groupeDao;
 
-    public InscriptionServiceImpl(UtilisateurDao utilisateurDao, GroupeDao groupeDao) {
+    private UtilisateurGroupeDao utilisateurGroupeDao;
+
+    public InscriptionServiceImpl(UtilisateurDao utilisateurDao, GroupeDao groupeDao, UtilisateurGroupeDao utilisateurGroupeDao) {
         this.utilisateurDao = utilisateurDao;
         this.groupeDao = groupeDao;
+        this.utilisateurGroupeDao = utilisateurGroupeDao;
     }
 
     public void inscrireUtilisateur(String prenom, String nom, String email, String motDePasse, String confirmationMotDePasse,
-                                    Long idGroupe, boolean approbation) throws FormInvalideException {
+                                    Long idGroupe, boolean approbation) throws MyTekException {
 
-        FormInvalideException ex = new FormInvalideException();
+        MyTekException ex = new MyTekException();
 
         if (prenom == null || prenom.equals("")) {
             ex.addMessage("prenom", "Veuillez saisir votre prénom.");
@@ -54,17 +59,15 @@ public class InscriptionServiceImpl implements InscriptionService {
             throw ex;
         }
 
-        if (idGroupe == 0) {
-            utilisateurDao.save(new Utilisateur(prenom, nom, email, MyTekUtils.sha256(motDePasse)));
-        } else {
-            Groupe groupe = groupeDao.findOneById(idGroupe);
-            utilisateurDao.save(new Utilisateur(prenom, nom, email, MyTekUtils.sha256(motDePasse), groupe));
+        Utilisateur utilisateur = utilisateurDao.save(new Utilisateur(prenom, nom, email, MyTekUtils.sha256(motDePasse)));
+        if (idGroupe != 0) {
+            utilisateurGroupeDao.save(new UtilisateurGroupe(utilisateur.getId(), idGroupe, false));
         }
     }
 
     @Override
-    public InscriptionGroupe inscrireGroupe(String nomGroupe, String urlImage, boolean approbation, Utilisateur createur) throws FormInvalideException {
-        FormInvalideException ex = new FormInvalideException();
+    public InscriptionGroupe inscrireGroupe(String nomGroupe, String urlImage, boolean approbation, Utilisateur createur) throws MyTekException {
+        MyTekException ex = new MyTekException();
         if (nomGroupe == null || nomGroupe.equals("")) {
             ex.addMessage("nomGroupe", "Veuillez saisir un nom de groupe.");
         } else {
@@ -86,7 +89,8 @@ public class InscriptionServiceImpl implements InscriptionService {
             urlImage = MyTekUtils.getProperty("aucuneImage");
         }
 
-        groupeDao.save(new Groupe(nomGroupe, urlImage));
+        Groupe newGroupe = groupeDao.save(new Groupe(nomGroupe, urlImage));
+        utilisateurGroupeDao.save(new UtilisateurGroupe(createur.getId(), newGroupe.getId(), true));
         return new InscriptionGroupe(nomGroupe, urlImage);
     }
 

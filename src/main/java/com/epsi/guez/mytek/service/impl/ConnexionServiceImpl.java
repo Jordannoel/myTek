@@ -1,7 +1,7 @@
 package com.epsi.guez.mytek.service.impl;
 
 import com.epsi.guez.mytek.Utils.MyTekUtils;
-import com.epsi.guez.mytek.exception.FormInvalideException;
+import com.epsi.guez.mytek.exception.MyTekException;
 import com.epsi.guez.mytek.model.Utilisateur;
 import com.epsi.guez.mytek.service.ConnexionService;
 import com.epsi.guez.mytek.service.UtilisateurService;
@@ -16,9 +16,9 @@ public class ConnexionServiceImpl implements ConnexionService {
         this.utilisateurService = utilisateurService;
     }
 
-    public Utilisateur connecterUtilisateur(String email, String motDePasse) throws FormInvalideException {
+    public Utilisateur connecterUtilisateur(String email, String motDePasse) throws MyTekException {
 
-        FormInvalideException ex = new FormInvalideException();
+        MyTekException ex = new MyTekException();
 
         if (email != null && !email.equals("")) {
             if (!email.matches("([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)")) {

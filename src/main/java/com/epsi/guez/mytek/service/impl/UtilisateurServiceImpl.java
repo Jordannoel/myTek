@@ -1,12 +1,15 @@
 package com.epsi.guez.mytek.service.impl;
 
 import com.epsi.guez.mytek.dao.UtilisateurDao;
-import com.epsi.guez.mytek.exception.FormInvalideException;
-import com.epsi.guez.mytek.model.Groupe;
+import com.epsi.guez.mytek.dao.UtilisateurGroupeDao;
+import com.epsi.guez.mytek.exception.MyTekException;
 import com.epsi.guez.mytek.model.Utilisateur;
+import com.epsi.guez.mytek.model.UtilisateurGroupe;
 import com.epsi.guez.mytek.service.GroupeService;
+import com.epsi.guez.mytek.service.UtilisateurGroupeService;
 import com.epsi.guez.mytek.service.UtilisateurService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,11 +18,17 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
     private UtilisateurDao utilisateurDao;
 
+    private UtilisateurGroupeDao utilisateurGroupeDao;
+
     private GroupeService groupeService;
 
-    public UtilisateurServiceImpl(UtilisateurDao utilisateurDao, GroupeService groupeService) {
+    private UtilisateurGroupeService utilisateurGroupeService;
+
+    public UtilisateurServiceImpl(UtilisateurDao utilisateurDao, UtilisateurGroupeDao utilisateurGroupeDao, GroupeService groupeService, UtilisateurGroupeService utilisateurGroupeService) {
         this.utilisateurDao = utilisateurDao;
+        this.utilisateurGroupeDao = utilisateurGroupeDao;
         this.groupeService = groupeService;
+        this.utilisateurGroupeService = utilisateurGroupeService;
     }
 
     @Override
@@ -68,25 +77,47 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     }
 
     @Override
-    public void setGroupeUtilisateur(Long idUtilisateur, Long idGroupe) throws FormInvalideException {
-        FormInvalideException ex = new FormInvalideException();
-
+    public void setGroupeUtilisateur(Long idUtilisateur, Long idGroupe) throws MyTekException {
+        MyTekException ex = new MyTekException();
         if (idUtilisateur == null) {
             ex.addMessage("connexion", "Vous devez être connecté pour rejoindre un groupe.");
             throw ex;
         }
-        Utilisateur utilisateur = utilisateurDao.findOneById(idUtilisateur);
-        Groupe groupe = groupeService.findOneById(idGroupe);
-        if (utilisateur.getGroupes().contains(groupe)) {
+        if (utilisateurGroupeService.countByUtilisateurIdAndGroupeId(idUtilisateur, idGroupe) > 0) {
             ex.addMessage("groupe", "Vous appartenez déjà à ce groupe.");
         }
-
         if (ex.mustBeThrown()) {
             throw ex;
         }
-
-        utilisateur.addGroupe(groupe);
-        utilisateurDao.save(utilisateur);
+        utilisateurGroupeDao.save(new UtilisateurGroupe(idUtilisateur, idGroupe, false));
     }
+
+    @Override
+    public List<Utilisateur> findAllByIdIn(List<Long> ids) {
+        return utilisateurDao.findAllByIdIn(ids);
+    }
+
+    @Override
+    public void utilisateurConnecte(Long id) throws MyTekException {
+        MyTekException ex = new MyTekException();
+        if (id == null) {
+            ex.addMessage("connexion", "Vous n'êtes pas connecté");
+        }
+        if (ex.mustBeThrown()) {
+            throw ex;
+        }
+    }
+
+    @Override
+    public void utilisateurPeutVoirGroupe(Long idUtilisateur, Long idGroupe) throws MyTekException {
+        MyTekException ex = new MyTekException();
+        if (utilisateurGroupeService.countByUtilisateurIdAndGroupeId(idUtilisateur, idGroupe) == 0) {
+            ex.addMessage("permission", "Vous ne faites pas partie de ce groupe");
+        }
+        if (ex.mustBeThrown()) {
+            throw ex;
+        }
+    }
+
 
 }

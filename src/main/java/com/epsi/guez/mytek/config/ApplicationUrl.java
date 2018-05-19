@@ -16,4 +16,7 @@ public final class ApplicationUrl {
     public static final String AJOUTER_FILM = "/ajouterFilm";
     public static final String VOIR_FILMS = "/voirFilms";
     public static final String FILM = "/film";
+    public static final String VOIR_GROUPES = "/voirGroupes";
+    public static final String GROUPE = "/groupe";
+    public static final String RENDRE_ADMINISTRATEUR = "/rendreAdministrateur";
 }

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://wwwthymeleaf.org">
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>MyTek - Consultation d'un groupe </title>
+    <style type="text/css">
+        div > table {
+            text-align: center;
+        }
+
+        .error-message {
+            color: red;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+
+<h2 style="text-align:center">Consulter un groupe </h2>
+<br>
+
+<div style="overflow-x:auto">
+    <table>
+        <tr>
+            <th>Nom</th>
+            <th>Avatar</th>
+            <th>Administrateurs</th>
+            <th>Membres</th>
+        </tr>
+        <tr>
+            <td th:text="${groupe.nomGroupe}"></td>
+            <td><img th:src="${groupe.urlImage}" alt="groupe" style="max-width:200px;"/></td>
+            <td>
+                <ul>
+                    <li th:each="admin : ${admins}">
+                        <span th:text="${admin.prenom} + ' ' + ${admin.nom}"></span>
+                    </li>
+                </ul>
+            </td>
+            <td>
+                <ul>
+                    <li th:each="membre : ${membres}">
+                        <span th:text="${membre.prenom} + ' ' + ${membre.nom}"></span>
+                        <form th:action="@{'/rendreAdministrateur/' + ${membre.id} + '/' + ${groupe.id}}" method="post">
+                            <button type="submit">Rendre administrateur</button>
+                        </form>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div>
+    <a th:href="@{/voirGroupes}"> Voir tous les groupes</a>
+    <a th:href="@{/}"> Retour à l'accueil</a>
+</div>
+</body>
+</html>

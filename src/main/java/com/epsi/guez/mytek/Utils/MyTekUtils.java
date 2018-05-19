@@ -1,12 +1,22 @@
 package com.epsi.guez.mytek.Utils;
 
+import com.epsi.guez.mytek.exception.MyTekException;
+import com.epsi.guez.mytek.service.UtilisateurGroupeService;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.MessageDigest;
+import java.util.List;
 import java.util.Properties;
 
 public class MyTekUtils {
+
+    @Autowired
+    private UtilisateurGroupeService utilisateurGroupeService;
 
     public static String sha256(String motDePasse) {
         try {
