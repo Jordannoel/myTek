@@ -5,6 +5,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -27,12 +29,24 @@ public class Film {
     private String titreOriginal;
 
     private String genre;
-    //private String realisateur;     //remplacer par List<Realisateur>
-    //private String acteur;          //remplacer par List<Acteur>
+
+    @ManyToMany
+    @JoinTable(
+            name = "film_realisateur",
+            joinColumns = {@JoinColumn(name = "film_id")},
+            inverseJoinColumns = {@JoinColumn(name = "realisateur_id")}
+    )
+    private List<Realisateur> realisateurs = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "film_acteur",
+            joinColumns = {@JoinColumn(name = "film_id")},
+            inverseJoinColumns = {@JoinColumn(name = "acteur_id")}
+    )
+    private List<Acteur> acteurs = new ArrayList<>();
+
     //private Date dateSortie;
-    //private String note;            //remplacer par une table intermédiaire avec l'utilisateur
-    //private String avisUtilisateur; //remplacer par une table intermédiaire avec l'utilisateur
-    //private boolean vuOuAVoir;      //remplacer par une table intermédiaire avec l'utilisateur
 
     public Film(@NotNull String titre, @NotNull String affiche, String nationalite, String titreOriginal, String genre) {
         this.titre = titre;
@@ -40,6 +54,18 @@ public class Film {
         this.nationalite = nationalite;
         this.titreOriginal = titreOriginal;
         this.genre = genre;
+    }
+
+    public Film(@NotNull String titre, @NotNull String affiche, String nationalite, String titreOriginal, String genre, Realisateur realisateur, Acteur acteur) {
+        this.titre = titre;
+        this.affiche = affiche;
+        this.nationalite = nationalite;
+        this.titreOriginal = titreOriginal;
+        if (!genre.equals("0")) {
+            this.genre = genre;
+        }
+        this.realisateurs.add(realisateur);
+        this.acteurs.add(acteur);
     }
 
     public Film() {

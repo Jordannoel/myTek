@@ -5,10 +5,7 @@ import com.epsi.guez.mytek.dao.GroupeDao;
 import com.epsi.guez.mytek.dao.UtilisateurDao;
 import com.epsi.guez.mytek.dao.UtilisateurGroupeDao;
 import com.epsi.guez.mytek.exception.MyTekException;
-import com.epsi.guez.mytek.model.Groupe;
-import com.epsi.guez.mytek.model.InscriptionGroupe;
-import com.epsi.guez.mytek.model.Utilisateur;
-import com.epsi.guez.mytek.model.UtilisateurGroupe;
+import com.epsi.guez.mytek.model.*;
 import com.epsi.guez.mytek.service.InscriptionService;
 import org.springframework.stereotype.Service;
 

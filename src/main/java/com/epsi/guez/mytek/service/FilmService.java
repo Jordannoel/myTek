@@ -10,5 +10,5 @@ public interface FilmService {
 
     Film findById(Long id);
 
-    void ajouterFilm(String titre, String affiche, String nationalite, String titreOriginal, String genre, Long idUtilisateur) throws MyTekException;
+    void ajouterFilm(String titre, String affiche, String nationalite, String titreOriginal, String genre, Long idUtilisateur, Long idRealisateur, Long idActeur) throws MyTekException;
 }

@@ -17,6 +17,33 @@
             border: 1px solid black;
         }
     </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            var dataTableFilms = $('#filmsTable').DataTable({
+                "sAjaxSource": "/voirFilmsListe",
+                "sAjaxDataProp": "",
+                "aoColumns": [
+                    {"mData": "titre"},
+                    {
+                        "data": "affiche", "render": function (data, type, row) {
+                            return '<img src="' + data + '" style="height:100px;width:100px;"/>';
+                        }
+                    },
+                    {"mData": "nationalite"},
+                    {"mData": "titreOriginal"},
+                    {"mData": "genre"}
+                ]
+            })
+        });
+
+    </script>
+
 </head>
 <body>
 
@@ -24,25 +51,52 @@
 <p style="text-align:center">Cliquez sur l'affiche d'un film pour afficher les détails</p>
 <br>
 
-<div style="overflow-x:auto">
-    <table>
-        <tr>
-            <th>Titre</th>
-            <th>Affiche</th>
-            <th>Nationalite</th>
-            <th>Titre original</th>
-            <th>Genre</th>
-        </tr>
-        <tr th:each="film : ${films}">
-            <td th:text="${film.titre}"></td>
-            <td><a th:href="@{'/film/' + ${film.id}}"><img th:src="${film.affiche}" alt="film"
-                                                           style="max-width:200px;"/></a></td>
-            <td th:text="${film.nationalite}"></td>
-            <td th:text="${film.titreOriginal}"></td>
-            <td th:text="${film.genre}"></td>
-        </tr>
-    </table>
-</div>
+<a th:href="@{/ajouterRealisateur}"> Ajouter un réalisateur</a>
+<a th:href="@{/ajouterActeur}"> Ajouter un acteur</a>
+
+
+<table id="filmsTable" class="display">
+
+    <thead>
+    <tr>
+        <th>Titre</th>
+        <th>Affiche</th>
+        <th>Nationalite</th>
+        <th>Titre original</th>
+        <th>Genre</th>
+    </tr>
+    </thead>
+</table>
+
+
+<!--<div style="overflow-x:auto">-->
+    <!--<table>-->
+        <!--<tr>-->
+            <!--<th>Titre</th>-->
+            <!--<th>Affiche</th>-->
+            <!--<th>Nationalite</th>-->
+            <!--<th>Titre original</th>-->
+            <!--<th>Genre</th>-->
+            <!--<th th:if="${session.id != null}">Actions</th>-->
+        <!--</tr>-->
+        <!--<tr th:each="film : ${films}">-->
+            <!--<td th:text="${film.titre}"></td>-->
+            <!--<td><a th:href="@{'/film/' + ${film.id}}"><img th:src="${film.affiche}" alt="film"-->
+                                                           <!--style="max-width:200px;"/></a></td>-->
+            <!--<td th:text="${film.nationalite}"></td>-->
+            <!--<td th:text="${film.titreOriginal}"></td>-->
+            <!--<td th:text="${film.genre}"></td>-->
+            <!--<td th:if="${session.id != null}">-->
+                <!--<form th:action="@{'/ajouterFilmMediatheque/' + ${film.id}}" method="post">-->
+                    <!--<button type="submit"> Ajouter à ma médiathèque</button>-->
+                <!--</form>-->
+            <!--</td>-->
+        <!--</tr>-->
+    <!--</table>-->
+    <!--<span class="error-message" th:if="${errors != null}" th:text="${errors.get('connexion')}"></span>-->
+    <!--<span class="error-message" th:if="${errors != null}" th:text="${errors.get('film')}"></span>-->
+    <!--<span class="error-message" th:if="${errors != null}" th:text="${errors.get('deja')}"></span>-->
+<!--</div>-->
 
 <div>
     <a th:href="@{/ajouterFilm}"> Ajouter un film</a>

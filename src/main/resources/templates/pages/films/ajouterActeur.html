@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://wwwthymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MyTek - Ajouter un acteur</title>
+    <style type="text/css">
+        form > div {
+            padding: .5em;
+        }
+
+        div > label:first-child {
+            display: inline-block;
+            min-width: 18em;
+        }
+
+        .error-message {
+            color: red;
+        }
+
+        #success {
+            color: limegreen;
+        }
+    </style>
+</head>
+<body>
+
+
+<h1> Ajouter un acteur </h1>
+
+<form method="post" accept-charset="utf-8">
+    <div>
+        <label for="nom"><b>Nom : </b></label>
+        <input id="nom" name="nom" type="text" value=''>
+        <span class="error-message" th:if="${errors != null}" th:text="${errors.get('nom')}"></span>
+    </div>
+    <div>
+        <label for="prenom">Prénom : </label>
+        <input id="prenom" name="prenom" type="text" value=''>
+        <span class="error-message" th:if="${errors != null}" th:text="${errors.get('prenom')}"></span>
+    </div>
+    <div>
+        <label for="nationalite">Nationalité : </label>
+        <input id="nationalite" name="nationalite" type="text" value=''>
+        <span class="error-message" th:if="${errors != null}" th:text="${errors.get('nationalite')}"></span>
+    </div>
+    <div>
+        <button type="submit">Ajouter</button>
+    </div>
+</form>
+
+<div id="success">
+    <span th:text="${success}"></span>
+</div>
+
+<div>
+    <a th:href="@{/voirFilms}"> Voir tous les films</a>
+    <a th:href="@{/index}"> Retour à l'accueil</a>
+</div>
+
+</body>
+</html>

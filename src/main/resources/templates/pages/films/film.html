@@ -31,6 +31,9 @@
             <th>Nationalite</th>
             <th>Titre original</th>
             <th>Genre</th>
+            <th>Realisateurs</th>
+            <th>Acteurs</th>
+            <th th:if="${session.id != null}">Remarques perso</th>
         </tr>
         <tr>
             <td th:text="${film.titre}"></td>
@@ -38,6 +41,43 @@
             <td th:text="${film.nationalite}"></td>
             <td th:text="${film.titreOriginal}"></td>
             <td th:text="${film.genre}"></td>
+            <td>
+                <ul>
+                    <li th:if="${realisateurs != null}" th:each="realisateur : ${realisateurs}">
+                        <span th:text="${realisateur.prenom} + ' ' + ${realisateur.nom}"></span>
+                        <span th:if="${realisateur.nationalite != null}" th:text="${realisateur.nationalite}"></span>
+                    </li>
+                </ul>
+            </td>
+            <td>
+                <ul>
+                    <li th:if="${acteurs != null}" th:each="acteur : ${acteurs}">
+                        <span th:text="${acteur.prenom} + ' ' + ${acteur.nom}"></span>
+                        <span th:if="${acteur.nationalite != null}" th:text="${acteur.nationalite}"></span>
+                    </li>
+                </ul>
+            </td>
+            <td th:if="${session.id != null}">
+                <form th:action="@{'/noterFilm/' + ${film.id}}" method="post">
+
+                    <select class="form-control" name="note" id="dropNote">
+                        <option th:value="0" th:text="'Ma note'"></option>
+                        <option th:value="1" th:text="'♥♡♡♡♡'"></option>
+                        <option th:value="2" th:text="'♥♥♡♡♡'"></option>
+                        <option th:value="3" th:text="'♥♥♥♡♡'"></option>
+                        <option th:value="4" th:text="'♥♥♥♥♡'"></option>
+                        <option th:value="5" th:text="'♥♥♥♥♥'"></option>
+                    </select>
+
+                    <label for="avis">Avis : </label>
+                    <textarea rows="5" cols="70" name="avis" id="avis" maxlength="280"></textarea>
+
+                    <input type="radio" name="aVoir" value="vu">Vu<br>
+                    <input type="radio" name="aVoir" value="aVoir">À voir<br>
+
+                    <button type="submit">Envoyer</button>
+                </form>
+            </td>
         </tr>
     </table>
 </div>

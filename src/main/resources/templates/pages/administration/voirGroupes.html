@@ -21,7 +21,7 @@
 <body>
 
 <h2 style="text-align:center">Voir les groupes</h2>
-<p style="text-align:center">Cliquez sur l'image d'un groupe voir les détails (si vous en faites partie)</p>
+<p style="text-align:center">Cliquez sur l'image d'un groupe pour voir les détails</p>
 <br>
 
 <div style="overflow-x:auto">
@@ -38,7 +38,8 @@
     </table>
 </div>
 <span class="error-message" th:if="${errors != null}" th:text="${errors.get('connexion')}"></span>
-<span class="error-message" th:if="${errors != null}" th:text="${errors.get('permission')}"></span>
+<!--<span class="error-message" th:if="${errors != null}" th:text="${errors.get('permission')}"></span>-->
+<!--<span class="success" th:if="${success != null}" th:text="${success.get('demandeAdhesion')}"></span>-->
 
 <div>
     <a th:href="@{/}"> Retour à l'accueil</a>

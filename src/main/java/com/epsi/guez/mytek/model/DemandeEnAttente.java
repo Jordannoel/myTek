@@ -9,8 +9,8 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Getter
 @Setter
-@Table(name = "utilisateur_groupe")
-public class UtilisateurGroupe {
+@Table(name = "demande_en_attente")
+public class DemandeEnAttente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,15 +24,11 @@ public class UtilisateurGroupe {
     @Column(name = "groupe_id")
     private Long groupeId;
 
-    @NotNull
-    private boolean droit;
-
-    public UtilisateurGroupe() {
+    public DemandeEnAttente() {
     }
 
-    public UtilisateurGroupe(@NotNull Long utilisateurId, @NotNull Long groupeId, boolean droit) {
+    public DemandeEnAttente(@NotNull Long utilisateurId, @NotNull Long groupeId) {
         this.utilisateurId = utilisateurId;
         this.groupeId = groupeId;
-        this.droit = droit;
     }
 }

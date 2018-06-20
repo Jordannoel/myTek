@@ -16,8 +16,9 @@
         .error-message {
             color: red;
         }
+
         #success {
-            color:limegreen;
+            color: limegreen;
         }
     </style>
 </head>
@@ -25,6 +26,8 @@
 
 
 <h1> Ajouter un film </h1>
+
+<span class="error-message" th:if="${errors != null}" th:text="${errors.get('connexion')}"></span>
 
 <form method="post" accept-charset="utf-8">
     <div>
@@ -49,10 +52,24 @@
     </div>
     <div>
         <select class="form-control" name="genre" id="dropGenre">
-            <option value="0" th:text="'Séléctionner un genre...'" ></option>
+            <option value="0" th:text="'Séléctionner un genre...'"></option>
             <option th:each="genre : ${genres}" th:value="${genre.libelle}" th:text="${genre.libelle}"></option>
         </select>
         <span class="error-message" th:if="${errors != null}" th:text="${errors.get('genre')}"></span>
+    </div>
+    <div>
+        <select class="form-control" name="realisateurs" id="realisateurs">
+            <option value="0" th:text="'Séléctionner un réalisateur...'"></option>
+            <option th:each="realisateur : ${realisateurs}" th:value="${realisateur.id}" th:text="${realisateur.prenom} + ' ' + ${realisateur.nom}"></option>
+        </select>
+        <span class="error-message" th:if="${errors != null}" th:text="${errors.get('realisateur')}"></span>
+    </div>
+    <div>
+        <select class="form-control" name="acteurs" id="acteurs">
+            <option value="0" th:text="'Séléctionner un acteur...'"></option>
+            <option th:each="acteur : ${acteurs}" th:value="${acteur.id}" th:text="${acteur.prenom} + ' ' + ${acteur.nom}"></option>
+        </select>
+        <span class="error-message" th:if="${errors != null}" th:text="${errors.get('acteur')}"></span>
     </div>
     <div>
         <button type="submit">Ajouter</button>

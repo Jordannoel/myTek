@@ -9,13 +9,6 @@
     <link rel="stylesheet" type="text/css" th:href="@{bootstrap-grid.css}">
 </head>
 <body>
-
-<div class="topnav" id="myTopnav">
-    <a href="#home" class="active">Accueil</a>
-    <a href="#news">MyTek personelle</a>
-    <a href="#contact">Groupe MyTek</a>
-    <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="myFunction()">&#9776;</a>
-</div>
 <div style="padding-left:16px">
     <h2>Accueil</h2>
 </div>
@@ -46,7 +39,10 @@
         <br>
     </div>
     <div th:if="${session.id != null}">
-        <a class="btn btn-primary" role="button" th:href="@{/voirGroupes}">Voir les groupe </a>
+        <a class="btn btn-primary" role="button" th:href="@{/voirGroupes}">Voir les groupes </a>
+    </div>
+    <div th:if="${session.id != null}">
+        <a class="btn btn-primary" role="button" th:href="@{/mediatheque}">Ma médiathèque </a>
     </div>
     <div th:if="${session.id != null}">
         <form th:action="@{/deconnexion}" method="post">

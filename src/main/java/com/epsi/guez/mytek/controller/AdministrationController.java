@@ -40,6 +40,9 @@ public class AdministrationController {
     @Autowired
     private UtilisateurGroupeService utilisateurGroupeService;
 
+    @Autowired
+    private DemandeEnAttenteService demandeEnAttenteService;
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home() {
         return PageMapping.INDEX;
@@ -68,6 +71,7 @@ public class AdministrationController {
         boolean approbation = Boolean.valueOf(req.getParameter("approbation"));
         try {
             inscriptionService.inscrireUtilisateur(prenom, nom, email, motDePasse, confirmationMotDePasse, idGroupe, approbation);
+
             Utilisateur utilisateur = connexionService.connecterUtilisateur(email, motDePasse);
             List<Long> groupeIds = utilisateurGroupeService.findAllGroupesIdByAdminId(utilisateur.getId());
             HttpSession session = req.getSession();
@@ -164,14 +168,20 @@ public class AdministrationController {
         return PageMapping.CREATION_GROUPE_VALIDEE;
     }
 
-    @RequestMapping(value = ApplicationUrl.REJOINDRE_GROUPE, method = RequestMethod.GET)
-    public String rejoindreGroupe(ModelMap modelMap) {
-        List<Groupe> groupes = groupeService.findAll();
-        modelMap.put("groupes", groupes);
-        return PageMapping.REJOINDRE_GROUPE;
+    @RequestMapping(value = ApplicationUrl.DEMANDE_REJOINDRE_GROUPE + "/{idGroupe}", method = RequestMethod.POST)
+    public String demandeRejoindreGroupe(ModelMap modelMap, HttpServletRequest req, RedirectAttributes redirectAttributes, @PathVariable(value = "idGroupe") Long idGroupe) {
+        HttpSession session = req.getSession();
+        Long idUtilisateur = (Long) session.getAttribute("id");
+        try {
+            demandeEnAttenteService.demanderRejoindreGroupe(idUtilisateur, idGroupe);
+        } catch (MyTekException ex) {
+            redirectAttributes.addFlashAttribute("errors", ex.getMessages());
+            return REDIRECT + ApplicationUrl.GROUPE + "/" + idGroupe;
+        }
+        return REDIRECT + ApplicationUrl.GROUPE + "/" + idGroupe;
     }
 
-    @RequestMapping(value = ApplicationUrl.REJOINDRE_GROUPE, method = RequestMethod.POST)
+    /*@RequestMapping(value = ApplicationUrl.REJOINDRE_GROUPE, method = RequestMethod.POST)
     public String rejoindreGroupePost(ModelMap modelMap, HttpServletRequest req, RedirectAttributes redirectAttributes) {
         HttpSession session = req.getSession();
         Long idUtilisateur = (Long) session.getAttribute("id");
@@ -186,7 +196,7 @@ public class AdministrationController {
             modelMap.put("errors", ex.getMessages());
             return PageMapping.REJOINDRE_GROUPE;
         }
-    }
+    }*/
 
     @RequestMapping(value = ApplicationUrl.VOIR_GROUPES, method = RequestMethod.GET)
     public String voirGroupes(ModelMap modelMap, HttpServletRequest req) {
@@ -201,7 +211,7 @@ public class AdministrationController {
         Long idUtilisateur = (Long) session.getAttribute("id");
         try {
             utilisateurService.utilisateurConnecte(idUtilisateur);
-            utilisateurService.utilisateurPeutVoirGroupe(idUtilisateur, idGroupe);
+            //utilisateurService.utilisateurPeutVoirGroupe(idUtilisateur, idGroupe);
 
             Groupe groupe = groupeService.findOneById(idGroupe);
             List<Long> adminIds = utilisateurGroupeService.findAllAdminIdByGroupeId(idGroupe);
@@ -214,9 +224,13 @@ public class AdministrationController {
             if (membresIds.size() != 0) {
                 membres = utilisateurService.findAllByIdIn(membresIds);
             }
+            boolean demandeExistante = demandeEnAttenteService.demandeExistante(idUtilisateur, idGroupe);
+            boolean administrateur = utilisateurGroupeService.isAdministrateur(idUtilisateur, idGroupe);
             modelMap.put("groupe", groupe);
             modelMap.put("admins", admins);
             modelMap.put("membres", membres);
+            modelMap.put("demandeExistante", demandeExistante);
+            modelMap.put("administrateur", administrateur);
             return PageMapping.GROUPE;
         } catch (MyTekException ex) {
             redirectAttributes.addFlashAttribute("errors", ex.getMessages());

@@ -2,6 +2,7 @@ package com.epsi.guez.mytek.service.impl;
 
 import com.epsi.guez.mytek.dao.UtilisateurGroupeDao;
 import com.epsi.guez.mytek.exception.MyTekException;
+import com.epsi.guez.mytek.model.UtilisateurGroupe;
 import com.epsi.guez.mytek.service.UtilisateurGroupeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -71,5 +72,11 @@ public class UtilisateurGroupeServiceImpl implements UtilisateurGroupeService {
             }
             utilisateurGroupeDao.modifierDroitUtilisateur(idUtilisateur, idGroupe, true);
         }
+    }
+
+    @Override
+    public boolean isAdministrateur(Long idUtilisateur, Long idGroupe) {
+        int asasa = utilisateurGroupeDao.countByUtilisateurIdAndGroupeIdAndDroit(idUtilisateur, idGroupe, true);
+        return asasa > 0;
     }
 }

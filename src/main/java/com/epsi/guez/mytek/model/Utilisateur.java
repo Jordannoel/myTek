@@ -24,14 +24,6 @@ public class Utilisateur {
 
     private String motDePasse;
 
-//    @ManyToMany
-//    @JoinTable(
-//            name = "groupe_utilisateur",
-//            joinColumns = {@JoinColumn(name = "utilisateur_id")},
-//            inverseJoinColumns = {@JoinColumn(name = "groupe_id")}
-//    )
-//    private List<Groupe> groupes = new ArrayList<>();
-
     public Utilisateur() {
     }
 

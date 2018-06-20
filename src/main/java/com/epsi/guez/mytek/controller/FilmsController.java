@@ -3,21 +3,27 @@ package com.epsi.guez.mytek.controller;
 import com.epsi.guez.mytek.config.ApplicationUrl;
 import com.epsi.guez.mytek.config.PageMapping;
 import com.epsi.guez.mytek.exception.MyTekException;
+import com.epsi.guez.mytek.model.Acteur;
 import com.epsi.guez.mytek.model.Film;
+import com.epsi.guez.mytek.model.Realisateur;
 import com.epsi.guez.mytek.model.enums.GenreEnum;
+import com.epsi.guez.mytek.service.ActeurService;
+import com.epsi.guez.mytek.service.AvisPersoService;
 import com.epsi.guez.mytek.service.FilmService;
+import com.epsi.guez.mytek.service.RealisateurService;
+import org.hibernate.validator.constraints.pl.REGON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -28,9 +34,22 @@ public class FilmsController {
     @Autowired
     private FilmService filmService;
 
+    @Autowired
+    private RealisateurService realisateurService;
+
+    @Autowired
+    private ActeurService acteurService;
+
+    @Autowired
+    private AvisPersoService avisPersoService;
+
     @RequestMapping(value = ApplicationUrl.AJOUTER_FILM, method = RequestMethod.GET)
     public String ajouterFilm(ModelMap modelMap) {
         List<GenreEnum> genres = Arrays.asList(GenreEnum.values());
+        List<Realisateur> realisateurs = realisateurService.findAll();
+        List<Acteur> acteurs = acteurService.findAll();
+        modelMap.put("realisateurs", realisateurs);
+        modelMap.put("acteurs", acteurs);
         modelMap.put("genres", genres);
         return PageMapping.AJOUTER_FILM;
     }
@@ -42,15 +61,17 @@ public class FilmsController {
         String nationalite = req.getParameter("nationalite");
         String titreOriginal = req.getParameter("titreOriginal");
         String genre = req.getParameter("genre");
+        Long idRealisateur = Long.valueOf(req.getParameter("realisateurs"));
+        Long idActeur = Long.valueOf(req.getParameter("acteurs"));
         HttpSession session = req.getSession();
         try {
             Long idUtilisateur = (Long) session.getAttribute("id");
-            filmService.ajouterFilm(titre, affiche, nationalite, titreOriginal, genre, idUtilisateur);
+            filmService.ajouterFilm(titre, affiche, nationalite, titreOriginal, genre, idUtilisateur, idRealisateur, idActeur);
             redirectAttributes.addFlashAttribute("success", "Votre film a bien été ajouté");
             return REDIRECT + ApplicationUrl.AJOUTER_FILM;
         } catch (MyTekException ex) {
-            modelMap.put("errors", ex.getMessages());
-            return PageMapping.AJOUTER_FILM;
+            redirectAttributes.addFlashAttribute("errors", ex.getMessages());
+            return REDIRECT + ApplicationUrl.AJOUTER_FILM;
         }
     }
 
@@ -61,13 +82,80 @@ public class FilmsController {
         return PageMapping.VOIR_FILMS;
     }
 
+    @RequestMapping(path = ApplicationUrl.VOIR_FILMS_LISTE, method = RequestMethod.GET)
+    @ResponseBody
+    public List<Film> voirFilmListe() {
+        return filmService.findAll();
+    }
+
     @RequestMapping(value = ApplicationUrl.FILM + "/{idFilm}", method = RequestMethod.GET)
     public String film(HttpServletRequest req, ModelMap modelMap, @PathVariable(value = "idFilm") Long idFilm) {
         Film film = filmService.findById(idFilm);
         modelMap.put("film", film);
+        modelMap.put("realisateurs", film.getRealisateurs());
+        modelMap.put("acteurs", film.getActeurs());
         return PageMapping.FILM;
     }
 
+    @RequestMapping(value = ApplicationUrl.NOTER_FILM + "/" + "{idFilm}", method = RequestMethod.POST)
+    public String noterFilm(HttpServletRequest req, ModelMap modelMap, @PathVariable(value = "idFilm") Long idFilm) {
+        HttpSession session = req.getSession();
+        Long idUtilisateur = (Long) session.getAttribute("id");
+        String note = req.getParameter("note");
+        String avis = req.getParameter("avis");
+        String aVoir = req.getParameter("aVoir");
+        try {
+            // a implementer
+            avisPersoService.ajouterAvis(idUtilisateur, idFilm, note, avis, aVoir);
+        } catch (MyTekException ex) {
+            modelMap.put("errors", ex.getMessages());
+            // a implementer
+        }
 
+        return REDIRECT + ApplicationUrl.FILM + "/" + idFilm;
+    }
 
+    @RequestMapping(value = ApplicationUrl.AJOUTER_REALISATEUR, method = RequestMethod.GET)
+    public String ajouterRealisateur() {
+        return PageMapping.AJOUTER_REALISATEUR;
+    }
+
+    @RequestMapping(value = ApplicationUrl.AJOUTER_REALISATEUR, method = RequestMethod.POST)
+    public String ajouterRealisateurPost(HttpServletRequest req, ModelMap modelMap, RedirectAttributes redirectAttributes) {
+        String nom = req.getParameter("nom");
+        String prenom = req.getParameter("prenom");
+        String nationalite = req.getParameter("nationalite");
+        HttpSession session = req.getSession();
+        try {
+            Long idUtilisateur = (Long) session.getAttribute("id");
+            realisateurService.ajouterRealisateur(nom, prenom, nationalite, idUtilisateur);
+            redirectAttributes.addFlashAttribute("success", "Votre réalisateur a bien été ajouté");
+            return REDIRECT + ApplicationUrl.AJOUTER_REALISATEUR;
+        } catch (MyTekException ex) {
+            modelMap.put("errors", ex.getMessages());
+            return PageMapping.AJOUTER_REALISATEUR;
+        }
+    }
+
+    @RequestMapping(value = ApplicationUrl.AJOUTER_ACTEUR, method = RequestMethod.GET)
+    public String ajouterActeur() {
+        return PageMapping.AJOUTER_ACTEUR;
+    }
+
+    @RequestMapping(value = ApplicationUrl.AJOUTER_ACTEUR, method = RequestMethod.POST)
+    public String ajouterActeurPost(HttpServletRequest req, ModelMap modelMap, RedirectAttributes redirectAttributes) {
+        String nom = req.getParameter("nom");
+        String prenom = req.getParameter("prenom");
+        String nationalite = req.getParameter("nationalite");
+        HttpSession session = req.getSession();
+        try {
+            Long idUtilisateur = (Long) session.getAttribute("id");
+            acteurService.ajouterActeur(nom, prenom, nationalite, idUtilisateur);
+            redirectAttributes.addFlashAttribute("success", "Votre acteur a bien été ajouté");
+            return REDIRECT + ApplicationUrl.AJOUTER_ACTEUR;
+        } catch (MyTekException ex) {
+            modelMap.put("errors", ex.getMessages());
+            return PageMapping.AJOUTER_ACTEUR;
+        }
+    }
 }

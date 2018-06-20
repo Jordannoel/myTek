@@ -20,7 +20,7 @@
 </head>
 <body>
 
-<h2 style="text-align:center">Consulter un groupe </h2>
+<h2 style="text-align:center">Groupe <span th:text="${groupe.nomGroupe}"> </span></h2>
 <br>
 
 <div style="overflow-x:auto">
@@ -30,6 +30,7 @@
             <th>Avatar</th>
             <th>Administrateurs</th>
             <th>Membres</th>
+            <th>Demande</th>
         </tr>
         <tr>
             <td th:text="${groupe.nomGroupe}"></td>
@@ -50,6 +51,16 @@
                         </form>
                     </li>
                 </ul>
+            </td>
+            <td>
+                <form th:action="@{'/demandeRejoindreGroupe/' + ${groupe.id}}" method="post">
+                    <div th:switch="${administrateur}">
+                        <button disabled=disabled th:case="true">Vous êtes admin de ce groupe</button>
+                        <div th:switch="${demandeExistante}"></div>
+                        <button th:case="false" disabled=disabled>Demande en attente</button>
+                        <button type="submit" th:case="true">Rejoindre le groupe</button>
+                    </div>
+                </form>
             </td>
         </tr>
     </table>

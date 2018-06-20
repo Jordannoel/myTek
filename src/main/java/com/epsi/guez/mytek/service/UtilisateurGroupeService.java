@@ -21,4 +21,6 @@ public interface UtilisateurGroupeService {
 
     void rendreMembreAdministrateur(Long idAdmin, Long idUtilisateur, Long idGroupe) throws MyTekException;
 
+    boolean isAdministrateur(Long idUtilisateur, Long idGroupe);
+
 }
