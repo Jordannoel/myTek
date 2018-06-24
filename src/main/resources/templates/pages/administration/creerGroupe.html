@@ -19,7 +19,7 @@
 <h1> Créer un groupe </h1>
 
 <form method="post" accept-charset="utf-8">
-    <h2 class = error-message th:if="${errors != null}" th:text="${errors.get('utilisateur')}"></h2>
+    <span class = error-message th:if="${errors != null}" th:text="${errors.get('utilisateur')}"></span>
 
     <div>
         <label for="nomGroupe">Nom du groupe : </label>

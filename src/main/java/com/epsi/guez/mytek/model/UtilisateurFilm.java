@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 
 /**
  * Classe représentant l'avis d'un utilisateur.
- * Si le film est dans la médiathèque de l'utilisateur, son avis peut être null ou non.
+ * Si le film est dans la médiathèque de l'utilisateur, son avis peut être null.
  */
 
 @Entity

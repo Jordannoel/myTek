@@ -16,6 +16,10 @@
         table, th, td {
             border: 1px solid black;
         }
+
+        #success {
+            color: limegreen;
+        }
     </style>
 </head>
 <body>
@@ -33,7 +37,9 @@
             <th>Genre</th>
             <th>Realisateurs</th>
             <th>Acteurs</th>
-            <th th:if="${session.id != null}">Remarques perso</th>
+            <th th:if="${session.id != null}">Médiathèque</th>
+            <th th:if="${session.id != null and avisPossible != null and avisPossible == true}">Mon avis</th>
+            <th th:if="${session.id != null and avisPossible != null and avisPossible == true}">Actions</th>
         </tr>
         <tr>
             <td th:text="${film.titre}"></td>
@@ -58,6 +64,27 @@
                 </ul>
             </td>
             <td th:if="${session.id != null}">
+                <form th:action="@{'/ajouterFilmMediatheque/' + ${film.id}}" method="post">
+                    <button type="submit"> Ajouter à ma médiathèque</button>
+                </form>
+            </td>
+            <td th:if="${session.id != null and avisPossible != null and avisPossible == true}">
+                <span th:text="'Ma note :'"></span>
+                <span th:if="${note != 0}">
+                    <th:block th:each="i: ${#numbers.sequence(0, note - 1)}">
+                        <span th:text="'♥'"></span>
+                    </th:block>
+                </span>
+
+                <span th:text="'Mon avis :'"></span>
+                <span th:text="${avis}"></span>
+
+                <span th:if="${vu}" th:text="${'Vu'}"></span>
+                <span th:unless="${vu}" th:text="${'À voir'}"></span>
+
+
+            </td>
+            <td th:if="${session.id != null and avisPossible != null and avisPossible == true}">
                 <form th:action="@{'/noterFilm/' + ${film.id}}" method="post">
 
                     <select class="form-control" name="note" id="dropNote">
@@ -68,18 +95,27 @@
                         <option th:value="4" th:text="'♥♥♥♥♡'"></option>
                         <option th:value="5" th:text="'♥♥♥♥♥'"></option>
                     </select>
+                    <span class="error-message" th:if="${errors != null}" th:text="${errors.get('note')}"></span>
 
                     <label for="avis">Avis : </label>
-                    <textarea rows="5" cols="70" name="avis" id="avis" maxlength="280"></textarea>
+                    <textarea rows="5" cols="35" name="avis" id="avis" maxlength="140"></textarea>
 
-                    <input type="radio" name="aVoir" value="vu">Vu<br>
-                    <input type="radio" name="aVoir" value="aVoir">À voir<br>
-
+                    <div>
+                        <input type="radio" name="vu" value="vu">Vu<br>
+                        <input type="radio" name="vu" value="aVoir">À voir<br>
+                    </div>
                     <button type="submit">Envoyer</button>
                 </form>
             </td>
         </tr>
     </table>
+</div>
+
+<span class="error-message" th:if="${errors != null}" th:text="${errors.get('connexion')}"></span>
+<span class="error-message" th:if="${errors != null}" th:text="${errors.get('film')}"></span>
+<span class="error-message" th:if="${errors != null}" th:text="${errors.get('deja')}"></span>
+<div id="success">
+    <span th:text="${success}"></span>
 </div>
 
 <div>

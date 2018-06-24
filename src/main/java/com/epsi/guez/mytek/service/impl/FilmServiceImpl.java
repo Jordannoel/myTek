@@ -58,4 +58,10 @@ public class FilmServiceImpl implements FilmService {
 
         filmDao.save(new Film(titre, affiche, nationalite, titreOriginal, genre, realisateur, acteur));
     }
+
+    @Override
+    public List<Film> findAllByIdUtilisateur(Long id) {
+        List<Film> test = filmDao.findAllByIdUtilisateur(id);
+        return test;
+    }
 }

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://wwwthymeleaf.org">
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>MyTek - Ma médiathèque </title>
+    <style type="text/css">
+        div > table {
+            text-align: center;
+        }
+
+        .error-message {
+            color: red;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            var dataTableMediatheque = $('#mediathequeTable').DataTable({
+                "sAjaxSource": "/mediathequeListe",
+                "sAjaxDataProp": "",
+                "aoColumns": [
+                    {"mData": "titre"},
+                    {
+                        "data": "affiche", "render": function (data, type, row) {
+                            return '<a href="/film/' + row.id + '"> <img src="' + data + '" style="height:100px;width:100px;"/></a>';
+                        }
+                    },
+                    {"mData": "nationalite"},
+                    {"mData": "titreOriginal"},
+                    {"mData": "genre"}
+                ],
+                "language": {
+                    "lengthMenu": "Afficher _MENU_ éléments par page",
+                    "zeroRecords": "Aucune donnée trouvée",
+                    "info": "Affichage de la page _PAGE_ sur _PAGES_",
+                    "infoEmpty": "Aucune donnée trouvée",
+                    "infoFiltered": "(Filtré de _MAX_ éléments)",
+                    "paginate": {
+                        "previous": "Page précédente",
+                        "next": "Page suivante"
+                    },
+                    "search": "Rechercher :"
+                }
+            })
+        });
+
+    </script>
+
+</head>
+<body>
+
+<h2 style="text-align:center">Ma médiathèque</h2>
+<p style="text-align:center">Cliquez sur l'affiche d'un film pour afficher les détails</p>
+<br>
+
+<table id="mediathequeTable">
+
+    <thead>
+    <tr>
+        <th>Titre</th>
+        <th>Affiche</th>
+        <th>Nationalite</th>
+        <th>Titre original</th>
+        <th>Genre</th>
+    </tr>
+    </thead>
+</table>
+
+<div>
+    <a th:href="@{/voirFilms}"> Voir tous les films</a>
+    <a th:href="@{/}"> Retour à l'accueil</a>
+</div>
+</body>
+</html>

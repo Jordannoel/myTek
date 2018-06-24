@@ -6,12 +6,12 @@ import com.epsi.guez.mytek.exception.MyTekException;
 import com.epsi.guez.mytek.model.Acteur;
 import com.epsi.guez.mytek.model.Film;
 import com.epsi.guez.mytek.model.Realisateur;
+import com.epsi.guez.mytek.model.UtilisateurFilm;
 import com.epsi.guez.mytek.model.enums.GenreEnum;
 import com.epsi.guez.mytek.service.ActeurService;
-import com.epsi.guez.mytek.service.AvisPersoService;
 import com.epsi.guez.mytek.service.FilmService;
 import com.epsi.guez.mytek.service.RealisateurService;
-import org.hibernate.validator.constraints.pl.REGON;
+import com.epsi.guez.mytek.service.UtilisateurFilmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -41,7 +41,7 @@ public class FilmsController {
     private ActeurService acteurService;
 
     @Autowired
-    private AvisPersoService avisPersoService;
+    private UtilisateurFilmService utilisateurFilmService;
 
     @RequestMapping(value = ApplicationUrl.AJOUTER_FILM, method = RequestMethod.GET)
     public String ajouterFilm(ModelMap modelMap) {
@@ -90,29 +90,42 @@ public class FilmsController {
 
     @RequestMapping(value = ApplicationUrl.FILM + "/{idFilm}", method = RequestMethod.GET)
     public String film(HttpServletRequest req, ModelMap modelMap, @PathVariable(value = "idFilm") Long idFilm) {
+        HttpSession session = req.getSession();
+        Long idUtilisateur = (Long) session.getAttribute("id");
         Film film = filmService.findById(idFilm);
+        boolean avisPossible = utilisateurFilmService.filmRattacheAUtilisateur(idUtilisateur, idFilm);
+        if(avisPossible){
+            UtilisateurFilm avisExistant = utilisateurFilmService.findByUtilisateurIdAndFilmId(idUtilisateur, idFilm);
+            modelMap.put("note", avisExistant.getNote());
+            modelMap.put("avis", avisExistant.getAvis());
+            modelMap.put("vu", avisExistant.isVu());
+        } else {
+            modelMap.put("note", 0);
+            modelMap.put("avis", "");
+        }
+
         modelMap.put("film", film);
         modelMap.put("realisateurs", film.getRealisateurs());
         modelMap.put("acteurs", film.getActeurs());
+        modelMap.put("avisPossible", avisPossible);
         return PageMapping.FILM;
     }
 
     @RequestMapping(value = ApplicationUrl.NOTER_FILM + "/" + "{idFilm}", method = RequestMethod.POST)
-    public String noterFilm(HttpServletRequest req, ModelMap modelMap, @PathVariable(value = "idFilm") Long idFilm) {
+    public String noterFilm(HttpServletRequest req, ModelMap modelMap, @PathVariable(value = "idFilm") Long idFilm, RedirectAttributes redirectAttributes) {
         HttpSession session = req.getSession();
         Long idUtilisateur = (Long) session.getAttribute("id");
         String note = req.getParameter("note");
         String avis = req.getParameter("avis");
-        String aVoir = req.getParameter("aVoir");
+        boolean vu = ("vu").equals(req.getParameter("vu"));
         try {
-            // a implementer
-            avisPersoService.ajouterAvis(idUtilisateur, idFilm, note, avis, aVoir);
+            utilisateurFilmService.ajouterAvis(idUtilisateur, idFilm, vu, avis, Integer.valueOf(note));
+            redirectAttributes.addFlashAttribute("success", "Votre avis a bien été ajouté.");
+            return REDIRECT + ApplicationUrl.FILM + "/" + idFilm;
         } catch (MyTekException ex) {
             modelMap.put("errors", ex.getMessages());
-            // a implementer
+            return REDIRECT + ApplicationUrl.FILM + "/" + idFilm;
         }
-
-        return REDIRECT + ApplicationUrl.FILM + "/" + idFilm;
     }
 
     @RequestMapping(value = ApplicationUrl.AJOUTER_REALISATEUR, method = RequestMethod.GET)
@@ -129,7 +142,7 @@ public class FilmsController {
         try {
             Long idUtilisateur = (Long) session.getAttribute("id");
             realisateurService.ajouterRealisateur(nom, prenom, nationalite, idUtilisateur);
-            redirectAttributes.addFlashAttribute("success", "Votre réalisateur a bien été ajouté");
+            redirectAttributes.addFlashAttribute("success", "Votre réalisateur a bien été ajouté.");
             return REDIRECT + ApplicationUrl.AJOUTER_REALISATEUR;
         } catch (MyTekException ex) {
             modelMap.put("errors", ex.getMessages());

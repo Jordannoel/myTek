@@ -25,4 +25,6 @@ public class PageMapping {
 
     public static final String AJOUTER_REALISATEUR = "pages/films/ajouterRealisateur";
     public static final String AJOUTER_ACTEUR = "pages/films/ajouterActeur";
+
+    public static final String MA_MEDIATHEQUE = "pages/films/maMediatheque";
 }

@@ -32,13 +32,25 @@
                     {"mData": "titre"},
                     {
                         "data": "affiche", "render": function (data, type, row) {
-                            return '<img src="' + data + '" style="height:100px;width:100px;"/>';
+                            return '<a href="/film/' + row.id + '"> <img src="' + data + '" style="height:100px;width:100px;"/></a>';
                         }
                     },
                     {"mData": "nationalite"},
                     {"mData": "titreOriginal"},
                     {"mData": "genre"}
-                ]
+                ],
+                "language": {
+                    "lengthMenu": "Afficher _MENU_ éléments par page",
+                    "zeroRecords": "Aucune donnée trouvée",
+                    "info": "Affichage de la page _PAGE_ sur _PAGES_",
+                    "infoEmpty": "Aucune donnée trouvée",
+                    "infoFiltered": "(Filtré de _MAX_ éléments)",
+                    "paginate": {
+                        "previous": "Page précédente",
+                        "next": "Page suivante"
+                    },
+                    "search": "Rechercher :"
+                }
             })
         });
 
@@ -55,7 +67,7 @@
 <a th:href="@{/ajouterActeur}"> Ajouter un acteur</a>
 
 
-<table id="filmsTable" class="display">
+<table id="filmsTable">
 
     <thead>
     <tr>
@@ -67,36 +79,6 @@
     </tr>
     </thead>
 </table>
-
-
-<!--<div style="overflow-x:auto">-->
-    <!--<table>-->
-        <!--<tr>-->
-            <!--<th>Titre</th>-->
-            <!--<th>Affiche</th>-->
-            <!--<th>Nationalite</th>-->
-            <!--<th>Titre original</th>-->
-            <!--<th>Genre</th>-->
-            <!--<th th:if="${session.id != null}">Actions</th>-->
-        <!--</tr>-->
-        <!--<tr th:each="film : ${films}">-->
-            <!--<td th:text="${film.titre}"></td>-->
-            <!--<td><a th:href="@{'/film/' + ${film.id}}"><img th:src="${film.affiche}" alt="film"-->
-                                                           <!--style="max-width:200px;"/></a></td>-->
-            <!--<td th:text="${film.nationalite}"></td>-->
-            <!--<td th:text="${film.titreOriginal}"></td>-->
-            <!--<td th:text="${film.genre}"></td>-->
-            <!--<td th:if="${session.id != null}">-->
-                <!--<form th:action="@{'/ajouterFilmMediatheque/' + ${film.id}}" method="post">-->
-                    <!--<button type="submit"> Ajouter à ma médiathèque</button>-->
-                <!--</form>-->
-            <!--</td>-->
-        <!--</tr>-->
-    <!--</table>-->
-    <!--<span class="error-message" th:if="${errors != null}" th:text="${errors.get('connexion')}"></span>-->
-    <!--<span class="error-message" th:if="${errors != null}" th:text="${errors.get('film')}"></span>-->
-    <!--<span class="error-message" th:if="${errors != null}" th:text="${errors.get('deja')}"></span>-->
-<!--</div>-->
 
 <div>
     <a th:href="@{/ajouterFilm}"> Ajouter un film</a>
