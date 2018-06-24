@@ -17,8 +17,6 @@ public interface UtilisateurService {
 
     Utilisateur findOneByEmail(String email);
 
-    void setGroupeUtilisateur(Long idUtilisateur, Long idGroupe) throws MyTekException;
-
     List<Utilisateur> findAllByIdIn(List<Long> ids);
 
     void utilisateurConnecte(Long id) throws MyTekException;

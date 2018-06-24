@@ -9,7 +9,6 @@ import com.epsi.guez.mytek.service.GroupeService;
 import com.epsi.guez.mytek.service.UtilisateurGroupeService;
 import com.epsi.guez.mytek.service.UtilisateurService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -74,22 +73,6 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         } else {
             return utilisateurs.get(0);
         }
-    }
-
-    @Override
-    public void setGroupeUtilisateur(Long idUtilisateur, Long idGroupe) throws MyTekException {
-        MyTekException ex = new MyTekException();
-        if (idUtilisateur == null) {
-            ex.addMessage("connexion", "Vous devez être connecté pour rejoindre un groupe.");
-            throw ex;
-        }
-        if (utilisateurGroupeService.countByUtilisateurIdAndGroupeId(idUtilisateur, idGroupe) > 0) {
-            ex.addMessage("groupe", "Vous appartenez déjà à ce groupe.");
-        }
-        if (ex.mustBeThrown()) {
-            throw ex;
-        }
-        utilisateurGroupeDao.save(new UtilisateurGroupe(idUtilisateur, idGroupe, false));
     }
 
     @Override

@@ -123,7 +123,7 @@ public class FilmsController {
             redirectAttributes.addFlashAttribute("success", "Votre avis a bien été ajouté.");
             return REDIRECT + ApplicationUrl.FILM + "/" + idFilm;
         } catch (MyTekException ex) {
-            modelMap.put("errors", ex.getMessages());
+            redirectAttributes.addFlashAttribute("errors", ex.getMessages());
             return REDIRECT + ApplicationUrl.FILM + "/" + idFilm;
         }
     }

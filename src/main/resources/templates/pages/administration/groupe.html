@@ -31,6 +31,7 @@
             <th>Administrateurs</th>
             <th>Membres</th>
             <th>Demande</th>
+            <th th:if="${administrateur}">Opérations administrateur</th>
         </tr>
         <tr>
             <td th:text="${groupe.nomGroupe}"></td>
@@ -46,9 +47,12 @@
                 <ul>
                     <li th:each="membre : ${membres}">
                         <span th:text="${membre.prenom} + ' ' + ${membre.nom}"></span>
-                        <form th:action="@{'/rendreAdministrateur/' + ${membre.id} + '/' + ${groupe.id}}" method="post">
-                            <button type="submit">Rendre administrateur</button>
-                        </form>
+                        <div th:if="${administrateur}">
+                            <form th:action="@{'/rendreAdministrateur/' + ${membre.id} + '/' + ${groupe.id}}"
+                                  method="post">
+                                <button type="submit">Rendre administrateur</button>
+                            </form>
+                        </div>
                     </li>
                 </ul>
             </td>
@@ -56,15 +60,42 @@
                 <form th:action="@{'/demandeRejoindreGroupe/' + ${groupe.id}}" method="post">
                     <div th:switch="${administrateur}">
                         <button disabled=disabled th:case="true">Vous êtes admin de ce groupe</button>
-                        <div th:switch="${demandeExistante}"></div>
-                        <button th:case="false" disabled=disabled>Demande en attente</button>
-                        <button type="submit" th:case="true">Rejoindre le groupe</button>
+                        <div th:case="false">
+                            <div th:switch="${demandeExistante}">
+                                <button disabled=disabled th:case="true">Demande en attente</button>
+                                <button type="submit" th:case="false">Rejoindre le groupe</button>
+                            </div>
+                        </div>
                     </div>
                 </form>
+            </td>
+            <td th:if="${administrateur}">
+                <ul>
+                    <li th:each="demandeur : ${demandeurs}">
+                        <span th:text="${demandeur.prenom} + ' ' + ${demandeur.nom}"></span>
+
+                        <form th:action="@{'/repondreDemandeGroupe/' + ${groupe.id} + '/' + ${demandeur.id} + '/' + ${true}}"
+                              method="post">
+                            <button type="submit">Accepter</button>
+                        </form>
+                        <form th:action="@{'/repondreDemandeGroupe/' + ${groupe.id} + '/' + ${demandeur.id} + '/' + ${false}}"
+                              method="post">
+                            <button type="submit">Refuser</button>
+                        </form>
+                    </li>
+                </ul>
             </td>
         </tr>
     </table>
 </div>
+
+<span class="error-message" th:if="${errors != null}" th:text="${errors.get('droits')}"></span>
+<span class="error-message" th:if="${errors != null}" th:text="${errors.get('utilisateur')}"></span>
+<span class="error-message" th:if="${errors != null}" th:text="${errors.get('membre')}"></span>
+<span class="error-message" th:if="${errors != null}" th:text="${errors.get('connexion')}"></span>
+<span class="error-message" th:if="${errors != null}" th:text="${errors.get('admin')}"></span>
+<span class="error-message" th:if="${errors != null}" th:text="${errors.get('groupe')}"></span>
+
 
 <div>
     <a th:href="@{/voirGroupes}"> Voir tous les groupes</a>

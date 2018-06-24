@@ -75,8 +75,26 @@ public class UtilisateurGroupeServiceImpl implements UtilisateurGroupeService {
     }
 
     @Override
+    public void setGroupeUtilisateur(Long idUtilisateur, Long idGroupe, Long idDemandeur) throws MyTekException {
+        MyTekException ex = new MyTekException();
+        if (idUtilisateur == null) {
+            ex.addMessage("connexion", "Vous devez être connecté pour accepter une demande.");
+            throw ex;
+        }
+        if (!isAdministrateur(idUtilisateur, idGroupe)) {
+            ex.addMessage("admin", "Vous n'êtes pas admin de ce groupe.");
+        }
+        if (countByUtilisateurIdAndGroupeId(idDemandeur, idGroupe) > 0) {
+            ex.addMessage("groupe", "L'utilisateur appartient déjà à ce groupe.");
+        }
+        if (ex.mustBeThrown()) {
+            throw ex;
+        }
+        utilisateurGroupeDao.save(new UtilisateurGroupe(idDemandeur, idGroupe, false));
+    }
+
+    @Override
     public boolean isAdministrateur(Long idUtilisateur, Long idGroupe) {
-        int asasa = utilisateurGroupeDao.countByUtilisateurIdAndGroupeIdAndDroit(idUtilisateur, idGroupe, true);
-        return asasa > 0;
+        return utilisateurGroupeDao.countByUtilisateurIdAndGroupeIdAndDroit(idUtilisateur, idGroupe, true) > 0;
     }
 }

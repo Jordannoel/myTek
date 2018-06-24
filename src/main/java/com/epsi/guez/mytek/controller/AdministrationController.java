@@ -150,7 +150,6 @@ public class AdministrationController {
             InscriptionGroupe inscriptionGroupe = inscriptionService.inscrireGroupe(nomGroupe, urlImage, approbation, utilisateur);
             session.setAttribute("dernierGroupeCree", inscriptionGroupe.getNom());
             session.setAttribute("urlDernierGroupeCree", inscriptionGroupe.getUrlImage());
-
             return REDIRECT + ApplicationUrl.CREATION_GROUPE_VALIDEE;
         } catch (MyTekException e) {
             List<Groupe> groupes = groupeService.findAll();
@@ -174,29 +173,31 @@ public class AdministrationController {
         Long idUtilisateur = (Long) session.getAttribute("id");
         try {
             demandeEnAttenteService.demanderRejoindreGroupe(idUtilisateur, idGroupe);
+            return REDIRECT + ApplicationUrl.GROUPE + "/" + idGroupe;
         } catch (MyTekException ex) {
             redirectAttributes.addFlashAttribute("errors", ex.getMessages());
             return REDIRECT + ApplicationUrl.GROUPE + "/" + idGroupe;
         }
-        return REDIRECT + ApplicationUrl.GROUPE + "/" + idGroupe;
     }
 
-    /*@RequestMapping(value = ApplicationUrl.REJOINDRE_GROUPE, method = RequestMethod.POST)
-    public String rejoindreGroupePost(ModelMap modelMap, HttpServletRequest req, RedirectAttributes redirectAttributes) {
+    @RequestMapping(value = ApplicationUrl.REPONDRE_DEMANDE_GROUPE + "/{idGroupe}/{idDemandeur}/{accepte}", method = RequestMethod.POST)
+    public String repondreDemandeGroupe(ModelMap modelMap, HttpServletRequest req, RedirectAttributes redirectAttributes,
+                                        @PathVariable(value = "idGroupe") Long idGroupe, @PathVariable(value = "idDemandeur") Long idDemandeur,
+                                        @PathVariable(value = "accepte") boolean accepte) {
         HttpSession session = req.getSession();
         Long idUtilisateur = (Long) session.getAttribute("id");
-        Long idGroupe = Long.valueOf(req.getParameter("groupe"));
         try {
-            utilisateurService.setGroupeUtilisateur(idUtilisateur, idGroupe);
-            redirectAttributes.addFlashAttribute("success", "Vous êtes maintenant affecté au groupe " + groupeService.findOneById(idGroupe).getNomGroupe() + ".");
-            return REDIRECT + ApplicationUrl.REJOINDRE_GROUPE;
+            if (accepte) {
+                utilisateurGroupeService.setGroupeUtilisateur(idUtilisateur, idGroupe, idDemandeur);
+                redirectAttributes.addFlashAttribute("success", "Vous êtes maintenant affecté au groupe " + groupeService.findOneById(idGroupe).getNomGroupe() + ".");
+            }
+            demandeEnAttenteService.supprimerDemande(idUtilisateur, idDemandeur, idGroupe);
+            return REDIRECT + ApplicationUrl.GROUPE + "/" + idGroupe;
         } catch (MyTekException ex) {
-            List<Groupe> groupes = groupeService.findAll();
-            modelMap.put("groupes", groupes);
-            modelMap.put("errors", ex.getMessages());
-            return PageMapping.REJOINDRE_GROUPE;
+            redirectAttributes.addFlashAttribute("errors", ex.getMessages());
+            return REDIRECT + ApplicationUrl.GROUPE + "/" + idGroupe;
         }
-    }*/
+    }
 
     @RequestMapping(value = ApplicationUrl.VOIR_GROUPES, method = RequestMethod.GET)
     public String voirGroupes(ModelMap modelMap, HttpServletRequest req) {
@@ -212,23 +213,29 @@ public class AdministrationController {
         try {
             utilisateurService.utilisateurConnecte(idUtilisateur);
             //utilisateurService.utilisateurPeutVoirGroupe(idUtilisateur, idGroupe);
-
             Groupe groupe = groupeService.findOneById(idGroupe);
             List<Long> adminIds = utilisateurGroupeService.findAllAdminIdByGroupeId(idGroupe);
             List<Long> membresIds = utilisateurGroupeService.findAllMembresIdByGroupeId(idGroupe);
+            List<Long> demandeurIds = demandeEnAttenteService.findAllUtilisateurEnAttenteForGroupe(idGroupe);
             List<Utilisateur> admins = new ArrayList<>();
             List<Utilisateur> membres = new ArrayList<>();
+            List<Utilisateur> demandeurs = new ArrayList<>();
             if (adminIds.size() != 0) {
                 admins = utilisateurService.findAllByIdIn(adminIds);
             }
             if (membresIds.size() != 0) {
                 membres = utilisateurService.findAllByIdIn(membresIds);
             }
+            if (demandeurIds.size() != 0) {
+                demandeurs = utilisateurService.findAllByIdIn(demandeurIds);
+            }
             boolean demandeExistante = demandeEnAttenteService.demandeExistante(idUtilisateur, idGroupe);
             boolean administrateur = utilisateurGroupeService.isAdministrateur(idUtilisateur, idGroupe);
+
             modelMap.put("groupe", groupe);
             modelMap.put("admins", admins);
             modelMap.put("membres", membres);
+            modelMap.put("demandeurs", demandeurs);
             modelMap.put("demandeExistante", demandeExistante);
             modelMap.put("administrateur", administrateur);
             return PageMapping.GROUPE;

@@ -95,8 +95,6 @@
                         <option th:value="4" th:text="'♥♥♥♥♡'"></option>
                         <option th:value="5" th:text="'♥♥♥♥♥'"></option>
                     </select>
-                    <span class="error-message" th:if="${errors != null}" th:text="${errors.get('note')}"></span>
-
                     <label for="avis">Avis : </label>
                     <textarea rows="5" cols="35" name="avis" id="avis" maxlength="140"></textarea>
 
@@ -114,12 +112,14 @@
 <span class="error-message" th:if="${errors != null}" th:text="${errors.get('connexion')}"></span>
 <span class="error-message" th:if="${errors != null}" th:text="${errors.get('film')}"></span>
 <span class="error-message" th:if="${errors != null}" th:text="${errors.get('deja')}"></span>
+<span class="error-message" th:if="${errors != null}" th:text="${errors.get('note')}"></span>
 <div id="success">
     <span th:text="${success}"></span>
 </div>
 
 <div>
     <a th:href="@{/voirFilms}"> Voir tous les films</a>
+    <a th:href="@{/maMediatheque}"> Ma médiaathèque </a>
     <a th:href="@{/}"> Retour à l'accueil</a>
 </div>
 </body>

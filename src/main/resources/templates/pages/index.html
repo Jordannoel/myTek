@@ -35,10 +35,6 @@
         <br>
     </div>
     <div th:if="${session.id != null}">
-        <a class="btn btn-primary" role="button" th:href="@{/rejoindreGroupe}">Rejoindre un groupe </a>
-        <br>
-    </div>
-    <div th:if="${session.id != null}">
         <a class="btn btn-primary" role="button" th:href="@{/voirGroupes}">Voir les groupes </a>
     </div>
     <div th:if="${session.id != null}">
@@ -46,9 +42,7 @@
     </div>
     <div th:if="${session.id != null}">
         <form th:action="@{/deconnexion}" method="post">
-            <button type="submit"
-            >Se déconnecter
-            </button>
+            <button type="submit"> Se déconnecter</button>
         </form>
     </div>
 </div>
