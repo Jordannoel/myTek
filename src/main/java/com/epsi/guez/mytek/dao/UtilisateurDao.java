@@ -18,5 +18,5 @@ public interface UtilisateurDao extends JpaRepository<Utilisateur, Long> {
     Utilisateur findOneById(Long id);
 
     @Query("SELECT distinct u FROM Utilisateur u WHERE u.id in :ids ")
-    List<Utilisateur> findAllByIdIn(@Param("ids")List<Long> ids);
+    List<Utilisateur> findAllByIdIn(@Param("ids") List<Long> ids);
 }

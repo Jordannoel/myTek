@@ -1,11 +1,8 @@
 package com.epsi.guez.mytek.service.impl;
 
 import com.epsi.guez.mytek.dao.DemandeEnAttenteDao;
-import com.epsi.guez.mytek.dao.UtilisateurGroupeDao;
 import com.epsi.guez.mytek.exception.MyTekException;
 import com.epsi.guez.mytek.model.DemandeEnAttente;
-import com.epsi.guez.mytek.model.Utilisateur;
-import com.epsi.guez.mytek.model.UtilisateurGroupe;
 import com.epsi.guez.mytek.service.DemandeEnAttenteService;
 import com.epsi.guez.mytek.service.UtilisateurGroupeService;
 import org.springframework.stereotype.Service;
@@ -59,7 +56,7 @@ public class DemandeEnAttenteServiceImpl implements DemandeEnAttenteService {
         if (idUtilisateur == null) {
             ex.addMessage("connexion", "Vous devez être connecté pour refuser une demande.");
         }
-        if (!utilisateurGroupeService.isAdministrateur(idUtilisateur, idGroupe)){
+        if (!utilisateurGroupeService.isAdministrateur(idUtilisateur, idGroupe)) {
             ex.addMessage("admin", "Vous n'êtes pas admin de ce groupe.");
         }
         if (ex.mustBeThrown()) {

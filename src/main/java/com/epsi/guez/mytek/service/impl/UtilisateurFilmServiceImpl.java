@@ -63,7 +63,7 @@ public class UtilisateurFilmServiceImpl implements UtilisateurFilmService {
     }
 
     @Override
-    public UtilisateurFilm findByUtilisateurIdAndFilmId(Long idUtilisateur, Long idFilm){
+    public UtilisateurFilm findByUtilisateurIdAndFilmId(Long idUtilisateur, Long idFilm) {
         return utilisateurFilmDao.findByUtilisateurIdAndFilmId(idUtilisateur, idFilm);
     }
 }

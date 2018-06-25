@@ -20,7 +20,7 @@ public interface GroupeDao extends JpaRepository<Groupe, Long> {
     int countByNomGroupe(String nomGroupe);
 
     @Query("SELECT distinct g FROM Groupe g WHERE g.id in :ids ")
-    List<Groupe> findAllByIdIn(@Param("ids")List<Long> ids);
+    List<Groupe> findAllByIdIn(@Param("ids") List<Long> ids);
 
 //    List<Groupe> findAllByUtilisateurId()
 }

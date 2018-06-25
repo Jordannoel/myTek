@@ -21,11 +21,11 @@ public class GroupeServiceImpl implements GroupeService {
         return groupeDao.findAll();
     }
 
-    public Groupe findOneById(Long id){
+    public Groupe findOneById(Long id) {
         return groupeDao.findOneById(id);
     }
 
-    public Groupe findOneByNomGroupe(String nomGroupe){
+    public Groupe findOneByNomGroupe(String nomGroupe) {
         return groupeDao.findOneByNomGroupe(nomGroupe);
     }
 

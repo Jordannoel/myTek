@@ -4,7 +4,6 @@ import com.epsi.guez.mytek.dao.UtilisateurDao;
 import com.epsi.guez.mytek.dao.UtilisateurGroupeDao;
 import com.epsi.guez.mytek.exception.MyTekException;
 import com.epsi.guez.mytek.model.Utilisateur;
-import com.epsi.guez.mytek.model.UtilisateurGroupe;
 import com.epsi.guez.mytek.service.GroupeService;
 import com.epsi.guez.mytek.service.UtilisateurGroupeService;
 import com.epsi.guez.mytek.service.UtilisateurService;

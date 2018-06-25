@@ -94,7 +94,7 @@ public class FilmsController {
         Long idUtilisateur = (Long) session.getAttribute("id");
         Film film = filmService.findById(idFilm);
         boolean avisPossible = utilisateurFilmService.filmRattacheAUtilisateur(idUtilisateur, idFilm);
-        if(avisPossible){
+        if (avisPossible) {
             UtilisateurFilm avisExistant = utilisateurFilmService.findByUtilisateurIdAndFilmId(idUtilisateur, idFilm);
             modelMap.put("note", avisExistant.getNote());
             modelMap.put("avis", avisExistant.getAvis());
