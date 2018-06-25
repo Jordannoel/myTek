@@ -1,105 +1,55 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://wwwthymeleaf.org">
+
+<!doctype html>
+<html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" type="text/css" th:href="@{bootstrap.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{bootstrap-reboot.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{bootstrap-grid.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{signin.css}">
+    <link href="signin.css" rel="stylesheet">
+
     <title>MyTek - connexion</title>
-    <style>
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-        }
-
-        form {
-            border: 3px solid #f1f1f1;
-        }
-
-        input[type=text], input[type=password] {
-            width: 100%;
-            padding: 12px 20px;
-            margin: 8px 0;
-            display: inline-block;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-        }
-
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 14px 20px;
-            margin: 8px 0;
-            border: none;
-            cursor: pointer;
-            width: 100%;
-        }
-
-        button:hover {
-            opacity: 0.8;
-        }
-
-        .cancelbtn {
-            width: auto;
-            padding: 10px 18px;
-            background-color: #f44336;
-        }
-
-        .imgcontainer {
-            text-align: center;
-            margin: 24px 0 12px 0;
-        }
-
-        img.avatar {
-            width: 40%;
-            border-radius: 50%;
-        }
-
-        .container {
-            padding: 16px;
-        }
-
-        span.psw {
-            float: right;
-            padding-top: 16px;
-        }
-
-        /* Change styles for span and cancel button on extra small screens */
-        @media screen and (max-width: 300px) {
-            span.psw {
-                display: block;
-                float: none;
-            }
-
-            .cancelbtn {
-                width: 100%;
-            }
-        }
-
-        .error-message {
-            color: red;
-        }
-    </style>
 </head>
-<body>
 
-<h1> Connexion </h1>
+<body class="text-center">
+<div class="container"  style="background:#f8f9fa">
 
-<form method="post" accept-charset="utf-8">
+
+<form class="form-signin"  method="post" accept-charset="utf-8">
+    <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+    <h1 class="h3 mb-3 font-weight-normal" >Connectez vous</h1>
     <div>
-        <label for="email">Email : </label>
-        <input id="email" name="email" type="text" value=''>
-        <span class="error-message" th:if="${errors != null}" th:text="${errors.get('email')}"></span>
+        <label for="inputEmail" class="sr-only">Adresse mail </label>
+        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+        <!--<span class="error-message" th:if="${errors != null}" th:text="${errors.get('email')}"></span>-->
+        <div class="invalid-feedback">
+            Merci de saisir votre adresse e-mail.
+        </div>
     </div>
     <div>
-        <label for="motDePasse">Mot de passe : </label>
-        <input id="motDePasse" name="motDePasse" type="password">
-        <span class="error-message" th:if="${errors != null}" th:text="${errors.get('motDePasse')}"></span>
+        <label for="inputPassword" class="sr-only">Mot de passe </label>
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <div class="invalid-feedback">
+            Merci de saisir votre mot de passe.
+        </div>
+
     </div>
+    <div class="checkbox mb-3">
+        <label>
+            <input type="checkbox" value="remember-me"> Se souvenir de moi
+        </label>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Connexion</button> <br/>
     <div>
-        <button type="submit">Se connecter</button>
+        <a class="btn btn-outline-primary" th:href="@{/index}"> Retour à l'accueil</a>
     </div>
+    <p class="mt-5 mb-3 text-muted">&copy; MyTek 2017-2018, Tout droits réservés </p>
 </form>
-
-<div>
-    <a th:href="@{/index}"> Retour à l'accueil</a>
 </div>
-
 </body>
 </html>
+
