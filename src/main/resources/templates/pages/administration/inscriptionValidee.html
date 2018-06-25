@@ -2,17 +2,26 @@
 <html lang="en" xmlns:th="http://wwwthymeleaf.org">
 <html>
 <head>
-    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" type="text/css" th:href="@{bootstrap.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{bootstrap-reboot.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{bootstrap-grid.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{signin.css}">
+    <link href="signin.css" rel="stylesheet">
     <title>MyTek - inscription validée</title>
 </head>
-<body>
+<body class="text-center">
+<div class="container"  style="background:#f8f9fa">
 <div>
-    <span th:text="${prenom}"></span> <span th:text="${nom}"></span>,
-    votre inscription a bien été prise en compte pour l'adresse mail
+    <span th:text="${prenom}"></span> <span th:text="${nom}"></span>
+    <h1 class="h3 mb-3 font-weight-normal" > Votre inscription a bien été prise en compte pour l'adresse mail</h1>
     <span th:text="${email}" ></span>.
 </div>
 <div>
-    <a th:href="@{/}"> Retour à l'accueil</a>
+    <a class="btn btn-outline-primary" th:href="@{/index}"> Retour à l'accueil</a>
+</div>
 </div>
 </body>
 </html>
