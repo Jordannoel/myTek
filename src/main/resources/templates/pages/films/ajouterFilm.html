@@ -2,6 +2,11 @@
 <html lang="en" xmlns:th="http://wwwthymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{bootstrap.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{bootstrap-reboot.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{bootstrap-grid.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{signin.css}">
+    <link href="signin.css" rel="stylesheet">
     <title>MyTek - Ajouter un film</title>
     <style type="text/css">
         form > div {
@@ -25,18 +30,19 @@
 <body>
 
 
-<h1> Ajouter un film </h1>
 
 <span class="error-message" th:if="${errors != null}" th:text="${errors.get('connexion')}"></span>
 
 <form method="post" accept-charset="utf-8">
+    <h1 class="h3 mb-3 font-weight-normal" >Ajouter un film</h1>
+
     <div>
         <label for="titre"><b>Titre : </b></label>
         <input id="titre" name="titre" type="text" value=''>
         <span class="error-message" th:if="${errors != null}" th:text="${errors.get('titre')}"></span>
     </div>
     <div>
-        <label for="affiche">Lien de l'affiche : </label>
+        <label for="affiche">Lien URL de l'affiche : </label>
         <input id="affiche" name="affiche" type="text" value=''>
         <span class="error-message" th:if="${errors != null}" th:text="${errors.get('affiche')}"></span>
     </div>
@@ -74,6 +80,8 @@
     <div>
         <button type="submit">Ajouter</button>
     </div>
+    <a th:href="@{/voirFilms}"> Voir tous les films</a>
+    <a th:href="@{/index}"> Retour à l'accueil</a>
 </form>
 
 <div id="success">
@@ -81,8 +89,7 @@
 </div>
 
 <div>
-    <a th:href="@{/voirFilms}"> Voir tous les films</a>
-    <a th:href="@{/index}"> Retour à l'accueil</a>
+
 </div>
 
 </body>
