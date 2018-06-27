@@ -2,21 +2,16 @@
 <html lang="en" xmlns:th="http://wwwthymeleaf.org">
 <html>
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" type="text/css" th:href="@{bootstrap.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{bootstrap-reboot.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{bootstrap-grid.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{signin.css}">
+    <link href="signin.css" rel="stylesheet">
     <title>MyTek - Voir les films </title>
-    <style type="text/css">
-        div > table {
-            text-align: center;
-        }
-
-        .error-message {
-            color: red;
-        }
-
-        table, th, td {
-            border: 1px solid black;
-        }
-    </style>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -55,9 +50,12 @@
         });
 
     </script>
-
 </head>
-<body>
+
+<body class="text-center">
+<div class="container"  style="background:#f8f9fa">
+
+
 
 <h2 style="text-align:center">Liste de films</h2>
 <p style="text-align:center">Cliquez sur l'affiche d'un film pour afficher les détails</p>
@@ -66,16 +64,14 @@
 <a th:href="@{/ajouterRealisateur}"> Ajouter un réalisateur</a>
 <a th:href="@{/ajouterActeur}"> Ajouter un acteur</a>
 
-
-<table id="filmsTable">
-
-    <thead>
+    <table class="table" id="filmsTable">
+        <thead class="thead-dark">
     <tr>
-        <th>Titre</th>
-        <th>Affiche</th>
-        <th>Nationalite</th>
-        <th>Titre original</th>
-        <th>Genre</th>
+        <th scope="col" >Titre</th>
+        <th scope="col" >Affiche</th>
+        <th scope="col" >Nationalite</th>
+        <th scope="col" >Titre original</th>
+        <th scope="col" >Genre</th>
     </tr>
     </thead>
 </table>
@@ -83,6 +79,7 @@
 <div>
     <a th:href="@{/ajouterFilm}"> Ajouter un film</a>
     <a th:href="@{/}"> Retour à l'accueil</a>
+</div>
 </div>
 </body>
 </html>

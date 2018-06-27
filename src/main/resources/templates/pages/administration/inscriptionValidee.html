@@ -14,13 +14,15 @@
 </head>
 <body class="text-center">
 <div class="container"  style="background:#f8f9fa">
-<div>
-    <span th:text="${prenom}"></span> <span th:text="${nom}"></span>
-    <h1 class="h3 mb-3 font-weight-normal" > Votre inscription a bien été prise en compte pour l'adresse mail</h1>
+<div> <h1 class="h3 mb-3 font-weight-normal" >
+    Félécitation
+    <span th:text="${prenom}"></span> <span th:text="${nom}"></span>,</br>
+   Votre inscription a bien été prise en compte pour l'adresse mail
     <span th:text="${email}" ></span>.
+</h1>
 </div>
 <div>
-    <a class="btn btn-outline-primary" th:href="@{/index}"> Retour à l'accueil</a>
+    <a class="btn btn-outline-primary" th:href="@{/index}"> Acceder à l'accueil</a>
 </div>
 </div>
 </body>
