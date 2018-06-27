@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://wwwthymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
     <link rel="stylesheet" type="text/css" th:href="@{bootstrap.css}">
     <link rel="stylesheet" type="text/css" th:href="@{bootstrap-reboot.css}">
     <link rel="stylesheet" type="text/css" th:href="@{bootstrap-grid.css}">
     <link rel="stylesheet" type="text/css" th:href="@{signin.css}">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="signin.css" rel="stylesheet">
     <title>MyTek - Ajouter un film</title>
     <style type="text/css">
@@ -27,8 +32,10 @@
         }
     </style>
 </head>
-<body>
-
+<body class="text-center" style="width:100%;height:auto;background:#ececec " >
+<div class="container"  style="background:#f8f7fa">
+    <br>
+    <br>
 
 
 <span class="error-message" th:if="${errors != null}" th:text="${errors.get('connexion')}"></span>
@@ -37,60 +44,60 @@
     <h1 class="h3 mb-3 font-weight-normal" >Ajouter un film</h1>
 
     <div>
-        <label for="titre"><b>Titre : </b></label>
-        <input id="titre" name="titre" type="text" value=''>
+
+        <input placeholder="Titre : "  class="form-control" id="titre" name="titre" type="text" value=''>
         <span class="error-message" th:if="${errors != null}" th:text="${errors.get('titre')}"></span>
     </div>
     <div>
-        <label for="affiche">Lien URL de l'affiche : </label>
-        <input id="affiche" name="affiche" type="text" value=''>
+
+        <input placeholder="Lien URL de l'affiche :"   class="form-control"   id="affiche" name="affiche" type="text" value=''>
         <span class="error-message" th:if="${errors != null}" th:text="${errors.get('affiche')}"></span>
     </div>
     <div>
-        <label for="nationalite">Nationalité : </label>
-        <input id="nationalite" name="nationalite" type="text" value=''>
+
+        <input placeholder="Nationalité :"   class="form-control"  id="nationalite" name="nationalite" type="text" value=''>
         <span class="error-message" th:if="${errors != null}" th:text="${errors.get('nationalite')}"></span>
     </div>
     <div>
-        <label for="titreOriginal">Titre original : </label>
-        <input id="titreOriginal" name="titreOriginal" type="text">
+
+        <input placeholder="Titre original :" class="form-control"  id="titreOriginal" name="titreOriginal" type="text">
         <span class="error-message" th:if="${errors != null}" th:text="${errors.get('titreOriginal')}"></span>
     </div>
     <div>
-        <select class="form-control" name="genre" id="dropGenre">
+        <select class="form-control form-control-lg" name="genre" id="dropGenre">
             <option value="0" th:text="'Séléctionner un genre...'"></option>
             <option th:each="genre : ${genres}" th:value="${genre.libelle}" th:text="${genre.libelle}"></option>
         </select>
         <span class="error-message" th:if="${errors != null}" th:text="${errors.get('genre')}"></span>
     </div>
     <div>
-        <select class="form-control" name="realisateurs" id="realisateurs">
+        <select class="form-control form-control-lg" name="realisateurs" id="realisateurs">
             <option value="0" th:text="'Séléctionner un réalisateur...'"></option>
             <option th:each="realisateur : ${realisateurs}" th:value="${realisateur.id}" th:text="${realisateur.prenom} + ' ' + ${realisateur.nom}"></option>
         </select>
         <span class="error-message" th:if="${errors != null}" th:text="${errors.get('realisateur')}"></span>
     </div>
     <div>
-        <select class="form-control" name="acteurs" id="acteurs">
+        <select class="form-control form-control-lg" name="acteurs" id="acteurs">
             <option value="0" th:text="'Séléctionner un acteur...'"></option>
             <option th:each="acteur : ${acteurs}" th:value="${acteur.id}" th:text="${acteur.prenom} + ' ' + ${acteur.nom}"></option>
         </select>
         <span class="error-message" th:if="${errors != null}" th:text="${errors.get('acteur')}"></span>
     </div>
     <div>
-        <button type="submit">Ajouter</button>
+        <button class="btn btn-lg btn-primary btn-block" >Ajouter</button>
     </div>
-    <a th:href="@{/voirFilms}"> Voir tous les films</a>
-    <a th:href="@{/index}"> Retour à l'accueil</a>
+    <div>
+        <a class="btn btn-primary"th:href="@{/ajouterRealisateur}"> Ajouter un réalisateur </a>
+        <a class="btn btn-primary"th:href="@{/voirFilms}"> Voir tous les films </a>
+        <a class="btn btn-primary"th:href="@{/ajouterActeur}"> Ajouter un acteur</a>
+        <a class="btn btn-primary" th:href="@{/index}"> Retour à l'accueil</a>
+    </div>
 </form>
 
 <div id="success">
     <span th:text="${success}"></span>
 </div>
-
-<div>
-
 </div>
-
 </body>
 </html>

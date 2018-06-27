@@ -9,6 +9,8 @@
     <link rel="stylesheet" type="text/css" th:href="@{bootstrap-reboot.css}">
     <link rel="stylesheet" type="text/css" th:href="@{bootstrap-grid.css}">
     <link rel="stylesheet" type="text/css" th:href="@{signin.css}">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="signin.css" rel="stylesheet">
     <title>MyTek - Ajouter un réalisateur</title>
     <style type="text/css">
@@ -33,18 +35,7 @@
 <div class="container"  style="background:#f8f7fa">
     <br>
     <br>
-    <div class="panel-body" style="background: #ececec">
-        <h2 style="text-align:center">Ajouter un réalisateur</h2>
-        <br>
 
-
-        <div>
-            <a class="btn btn-primary"th:href="@{/ajouterFilm}"> Ajouter un film</a>
-            <a class="btn btn-primary" th:href="@{/}"> Retour à l'accueil</a>
-            <a class="btn btn-primary"th:href="@{/voirFilms}"> Ajouter un réalisateur</a>
-            <a class="btn btn-primary"th:href="@{/ajouterActeur}"> Ajouter un acteur</a>
-        </div>
-    </div>
 
 
 <h1 class="h3 mb-3 font-weight-normal" > Ajouter un réalisateur </h1>
@@ -70,11 +61,16 @@
 <div id="success">
     <span th:text="${success}"></span>
 </div>
-
+    </br>
+    </br>
+    </br>
 <div>
-    <a th:href="@{/voirFilms}"> Voir tous les films</a>
-    <a th:href="@{/index}"> Retour à l'accueil</a>
+    <a class="btn btn-primary"th:href="@{/ajouterFilm}"> Ajouter un film</a>
+    <a class="btn btn-primary"th:href="@{/voirFilms}"> Voir tous les films </a>
+    <a class="btn btn-primary"th:href="@{/ajouterRealisateur}"> Ajouter un réalisateur</a>
+    <a class="btn btn-primary" th:href="@{/index}"> Retour à l'accueil</a>
 </div>
+</br>
 </div>
 </body>
 </html>
