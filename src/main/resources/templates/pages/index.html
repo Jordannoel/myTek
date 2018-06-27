@@ -57,8 +57,8 @@
             </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="mot-clé">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>
         </form>
     </div>
 </nav>
@@ -86,22 +86,30 @@
     </div>
     <div th:if="${session.id != null}">
         <a class="btn btn-primary" role="button" th:href="@{/ajouterFilm}"> Ajouter un film </a>
-        <br>
+        <br><br> <br><br>
+    </div>
+    <div th:if="${session.id != null}">
+        <a class="btn btn-primary" role="button" th:href="@{/voirFilms}">Voir tous les films </a>
+        <br> <br><br>
     </div>
     <div th:if="${session.id != null}">
         <a class="btn btn-primary" role="button" th:href="@{/creerGroupe}"> Créer un groupe </a>
+        <br> <br><br>
         <br>
     </div>
     <div th:if="${session.id != null}">
         <a class="btn btn-primary" role="button" th:href="@{/voirGroupes}">Voir les groupes </a>
+        <br> <br><br>
     </div>
     <div th:if="${session.id != null}">
         <a class="btn btn-primary" role="button" th:href="@{/mediatheque}">Ma médiathèque </a>
+        <br> <br><br>
     </div>
     <div th:if="${session.id != null}">
         <form th:action="@{/deconnexion}" method="post">
             <button type="submit"> Se déconnecter</button>
         </form>
+        <br> <br><br>
     </div>
 </div>
 
