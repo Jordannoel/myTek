@@ -9,51 +9,25 @@
     <link rel="stylesheet" type="text/css" th:href="@{bootstrap-grid.css}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>MyTek - Accueil</title>
-    <style type="text/css">
-        h2{
-            font-family: 'Droid Serif', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            color: white;
-        }
-        body{
-            background-image: url("https://initiate.alphacoders.com/images/329/cropped-1920-1080-329544.jpg?3523");
-
-
-        }
-        div {
-            text-align: center;
-            padding-left: 16px;
-        }
-
-        .error-message {
-            color: red;
-        }
-
-        #success {
-            color: limegreen;
-        }
-
-        .centre{
-            height:300px;
-            margin-left: auto;
-            margin-right: auto;
-            text-align: center;
-            width: 30%;
-            background: rgba(0,0,0,0.4);
-        }
-    </style>
 </head>
 <body>
-
+<div style="padding-left:16px">
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand"></a>
+    <a class="navbar-brand" href="#">Navbar</a>
 
     <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item active">
-                <a class="nav-link" href="#">Accueil <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#">Disabled</a>
             </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
@@ -64,25 +38,22 @@
 </nav>
 
 <div class="doc-section-title.">
-    <h2>Bienvenue sur MyTek</h2>
+    <h2>Accueil</h2>
 </div>
+<a href="#" class="btn btn-primary my-2">Main call to action</a>
 
-<!--<img th:src="@{https://initiate.alphacoders.com/images/329/cropped-1920-1080-329544.jpg?3523}" />-->
-
-<div class="centre">
-    <br>
-    <br> <br>
-
+<div>
     <div th:if="${session.id == null}">
         <a class="btn btn-primary" role="button" th:href="@{/inscription}"> Inscription </a>
         <br>
-        <br> <br> <br>
     </div>
     <div th:if="${session.id == null}">
         <a class="btn btn-primary" role="button" th:href="@{/connexion}"> Connexion </a>
-        <br><br>
-        <br> <br><br>
-        <br> <br>
+        <br>
+    </div>
+    <div>
+        <a class="btn btn-primary" role="button" th:href="@{/voirFilms}"> Voir tous les films </a>
+        <br>
     </div>
     <div th:if="${session.id != null}">
         <a class="btn btn-primary" role="button" th:href="@{/ajouterFilm}"> Ajouter un film </a>
