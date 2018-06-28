@@ -1,7 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://wwwthymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" type="text/css" th:href="@{bootstrap.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{bootstrap-reboot.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{bootstrap-grid.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{signin.css}">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="signin.css" rel="stylesheet">
     <title>MyTek - Création d'un groupe</title>
     <style>
         .error-message {
@@ -14,43 +24,48 @@
         }
     </style>
 </head>
-<body>
+<body class="text-center" style="width:100%;height:auto;background:#ececec " >
+<div class="container"  style="background:#f8f7fa">
+    <br>
+    <br>
 
 <h1> Créer un groupe </h1>
 
-<form method="post" accept-charset="utf-8">
+<form method="post" class="form-signin" accept-charset="utf-8">
     <span class = error-message th:if="${errors != null}" th:text="${errors.get('utilisateur')}"></span>
 
     <div>
-        <label for="nomGroupe">Nom du groupe : </label>
-        <input id="nomGroupe" name="nomGroupe" type="text" value=''>
+        <input placeholder="Nom du groupe : "  class="form-control" id="nomGroupe" name="nomGroupe" type="text" value=''>
         <span class="error-message" th:if="${errors != null}" th:text="${errors.get('nomGroupe')}"></span>
     </div>
+    </br></br>
 
     <div style="background-color: #f1f1f1">
-        <p>Tous les groupes déjà existant :</p>
-        <br>
+        <p> Liste des groupes existants  :</p>
         <span th:each="groupe : ${groupes}" th:text="${groupe.nomGroupe} + ' | '"> </span>
     </div>
-
+    </br></br>
     <div>
-        <label for="urlImage">Avatar : </label>
-        <input id="urlImage" name="urlImage" type="text" value=''>
+        <input placeholder="Avatar :"  class="form-control" id="urlImage" name="urlImage" type="text" value=''>
         <span class="error-message" th:if="${errors != null}" th:text="${errors.get('urlImage')}"></span>
     </div>
-    <div>
-        <input id="approbation" name="approbation" value="true" type="checkbox">
-        <label for="approbation">J'ai lu et approuvé les conditions générales de ce site</label>
-        <span class="error-message" th:if="${errors != null}" th:text="${errors.get('approbation')}"></span>
+    </br></br>
+    <div class="form-check">
+        <label class="form-check-label">
+            <input  id="approbation"  class="form-check-input"  name="approbation" value="true" type="checkbox"></br>
+            J'ai lu et approuvé les conditions générales de ce site
+            <span class="error-message" th:if="${errors != null}" th:text="${errors.get('approbation')}"></span>
+        </label>
     </div>
+    </br></br>
     <div>
-        <button type="submit">Créer</button>
+        <button  class="btn btn-lg btn-primary btn-block" type="submit">Créer</button>
     </div>
 </form>
-
-<div>
-    <a th:href="@{/index}"> Retour à l'accueil</a>
+</br> </br>
+    <div>
+        <a class="btn btn-primary" th:href="@{/index}"> Retour à l'accueil</a>
+    </div>
 </div>
-
 </body>
 </html>

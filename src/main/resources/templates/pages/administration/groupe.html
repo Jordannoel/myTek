@@ -2,7 +2,22 @@
 <html lang="en" xmlns:th="http://wwwthymeleaf.org">
 <html>
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" type="text/css" th:href="@{bootstrap.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{bootstrap-reboot.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{bootstrap-grid.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{signin.css}">
+    <link href="signin.css" rel="stylesheet">
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+
     <title>MyTek - Consultation d'un groupe </title>
     <style type="text/css">
         div > table {
@@ -18,20 +33,25 @@
         }
     </style>
 </head>
-<body>
+<body class="text-center" style="width:100%;height:auto;background:#ececec " >
+<div class="container"  style="background:#f8f7fa">
+    <br>
+    <br>
+    <div class="panel-body" style="background: #ececec">
 
 <h2 style="text-align:center">Groupe <span th:text="${groupe.nomGroupe}"> </span></h2>
 <br>
 
 <div style="overflow-x:auto">
-    <table>
+    <table class="table">
+        <thead class="thead-dark">
         <tr>
-            <th>Nom</th>
-            <th>Avatar</th>
-            <th>Administrateurs</th>
-            <th>Membres</th>
-            <th>Demande</th>
-            <th th:if="${administrateur}">Opérations administrateur</th>
+            <th scope="col">Nom</th>
+            <th scope="col" >Avatar</th>
+            <th scope="col">Administrateurs</th>
+            <th scope="col">Membres</th>
+            <th scope="col">Demande</th>
+            <th scope="col"  th:if="${administrateur}">Opérations administrateur</th>
         </tr>
         <tr>
             <td th:text="${groupe.nomGroupe}"></td>
@@ -50,7 +70,7 @@
                         <div th:if="${administrateur}">
                             <form th:action="@{'/rendreAdministrateur/' + ${membre.id} + '/' + ${groupe.id}}"
                                   method="post">
-                                <button type="submit">Rendre administrateur</button>
+                                <button class="btn btn-lg btn-primary btn-block" type="submit">Rendre administrateur</button>
                             </form>
                         </div>
                     </li>
@@ -59,11 +79,11 @@
             <td>
                 <form th:action="@{'/demandeRejoindreGroupe/' + ${groupe.id}}" method="post">
                     <div th:switch="${administrateur}">
-                        <button disabled=disabled th:case="true">Vous êtes admin de ce groupe</button>
+                        <button class="btn btn-lg btn-primary btn-block" disabled=disabled th:case="true">Vous êtes admin de ce groupe</button>
                         <div th:case="false">
                             <div th:switch="${demandeExistante}">
-                                <button disabled=disabled th:case="true">Demande en attente</button>
-                                <button type="submit" th:case="false">Rejoindre le groupe</button>
+                                <button class="btn btn-lg btn-primary btn-block" disabled=disabled th:case="true">Demande en attente</button>
+                                <button class="btn btn-lg btn-primary btn-block" type="submit" th:case="false">Rejoindre le groupe</button>
                             </div>
                         </div>
                     </div>
@@ -76,11 +96,11 @@
 
                         <form th:action="@{'/repondreDemandeGroupe/' + ${groupe.id} + '/' + ${demandeur.id} + '/' + ${true}}"
                               method="post">
-                            <button type="submit">Accepter</button>
+                            <button class="btn btn-lg btn-primary btn-block" type="submit">Accepter</button>
                         </form>
                         <form th:action="@{'/repondreDemandeGroupe/' + ${groupe.id} + '/' + ${demandeur.id} + '/' + ${false}}"
                               method="post">
-                            <button type="submit">Refuser</button>
+                            <button  class="btn btn-lg btn-primary btn-block" type="submit">Refuser</button>
                         </form>
                     </li>
                 </ul>
@@ -96,10 +116,16 @@
 <span class="error-message" th:if="${errors != null}" th:text="${errors.get('admin')}"></span>
 <span class="error-message" th:if="${errors != null}" th:text="${errors.get('groupe')}"></span>
 
-
+    </br>
+    </br>
 <div>
-    <a th:href="@{/voirGroupes}"> Voir tous les groupes</a>
-    <a th:href="@{/}"> Retour à l'accueil</a>
+    <a class="btn btn-primary"th:href="@{/voirGroupes}"> Voir tous les groupes</a>
+    <a class="btn btn-primary" th:href="@{/index}"> Retour à l'accueil</a>
+</div></div>
+    </br>
+    </br>
 </div>
+</br>
+</br>
 </body>
 </html>

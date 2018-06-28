@@ -8,6 +8,8 @@
     <link rel="stylesheet" type="text/css" th:href="@{bootstrap-reboot.css}">
     <link rel="stylesheet" type="text/css" th:href="@{bootstrap-grid.css}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
     <title>MyTek - Accueil</title>
     <style type="text/css">
         h2{
@@ -33,7 +35,7 @@
         }
 
         .centre{
-            height:650px;
+            height:900px;
             margin-left: auto;
             margin-right: auto;
             text-align: center;
@@ -42,27 +44,8 @@
         }
     </style>
 </head>
+
 <body>
-
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <a class="navbar-brand"></a>
-
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Accueil <span class="sr-only">(current)</span></a>
-            </li>
-        </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="mot-clé">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>
-        </form>
-    </div>
-</nav>
-
 <div class="doc-section-title.">
     <h2>Bienvenue sur MyTek</h2>
 </div>
@@ -71,8 +54,14 @@
 
 <div class="centre">
     <br>
-    <br> <br>
-
+    <br>
+    <div th:if="${session.id != null}">
+     <h2>Compte : </h2> <a class="btn btn-primary"  role="button" th:href="@{'/voirCompte/'}">
+          <span style="text-align: center" th:text="${session.prenom != null and session.nom != null} ? ${session.prenom + ' ' + session.nom} : 'Non connecté'"></span>
+        </a>
+    </div>
+    <br>
+    <br>
     <div th:if="${session.id == null}">
         <a class="btn btn-primary" role="button" th:href="@{/inscription}"> Inscription </a>
         <br>
@@ -80,44 +69,44 @@
     </div>
     <div th:if="${session.id == null}">
         <a class="btn btn-primary" role="button" th:href="@{/connexion}"> Connexion </a>
-        <br><br>
-        <br> <br><br>
-        <br> <br>
+        <br>
+        <br> <br> <br>
     </div>
     <div th:if="${session.id != null}">
         <a class="btn btn-primary" role="button" th:href="@{/ajouterFilm}"> Ajouter un film </a>
-        <br><br> <br><br>
+        <br>
+        <br> <br> <br>
     </div>
     <div th:if="${session.id != null}">
         <a class="btn btn-primary" role="button" th:href="@{/voirFilms}">Voir tous les films </a>
-        <br> <br><br>
+        <br>
+        <br> <br> <br>
     </div>
     <div th:if="${session.id != null}">
         <a class="btn btn-primary" role="button" th:href="@{/creerGroupe}"> Créer un groupe </a>
-        <br> <br><br>
         <br>
+        <br> <br> <br>
     </div>
     <div th:if="${session.id != null}">
         <a class="btn btn-primary" role="button" th:href="@{/voirGroupes}">Voir les groupes </a>
-        <br> <br><br>
+        <br>
+        <br> <br> <br>
     </div>
     <div th:if="${session.id != null}">
         <a class="btn btn-primary" role="button" th:href="@{/mediatheque}">Ma médiathèque </a>
-        <br> <br><br>
+        <br>
+        <br> <br> <br>
     </div>
     <div th:if="${session.id != null}">
         <form th:action="@{/deconnexion}" method="post">
-            <button type="submit"> Se déconnecter</button>
+            <button class="btn btn-primary"  type="submit"> Se déconnecter</button>
         </form>
-        <br> <br><br>
+        <br>
+        <br> <br> <br>
     </div>
 </div>
 
-<div th:if="${session.id != null}">
-    <h2>Compte : </h2> <a th:href="@{'/voirCompte/'}"><span style="text-align: center"
-                                                            th:text="${session.prenom != null and session.nom != null} ? ${session.prenom + ' ' + session.nom} : 'Non connecté'"></span>
-</a>
-</div>
+
 
 </body>
 </html>

@@ -2,7 +2,23 @@
 <html lang="en" xmlns:th="http://wwwthymeleaf.org">
 <html>
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" type="text/css" th:href="@{bootstrap.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{bootstrap-reboot.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{bootstrap-grid.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{signin.css}">
+    <link href="signin.css" rel="stylesheet">
+
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+
     <title>MyTek - Consultation d'un film </title>
     <style type="text/css">
         div > table {
@@ -22,28 +38,33 @@
         }
     </style>
 </head>
-<body>
+<body class="text-center" style="width:100%;height:auto;background:#ececec " >
+<div class="container"  style="background:#f8f7fa">
+    <br>
+    <br>
+    <div class="panel-body" style="background: #ececec">
 
 <h2 style="text-align:center">Consulter un film </h2>
 <br>
 
-<div style="overflow-x:auto">
-    <table>
+<div >
+    <table class="table" >
+        <thead class="thead-dark">
         <tr>
-            <th>Titre</th>
-            <th>Affiche</th>
-            <th>Nationalite</th>
-            <th>Titre original</th>
-            <th>Genre</th>
-            <th>Realisateurs</th>
-            <th>Acteurs</th>
-            <th th:if="${session.id != null}">Médiathèque</th>
-            <th th:if="${session.id != null and avisPossible != null and avisPossible == true}">Mon avis</th>
-            <th th:if="${session.id != null and avisPossible != null and avisPossible == true}">Actions</th>
+            <th scope="col">Titre</th>
+            <th scope="col">Affiche</th>
+            <th scope="col">Nationalite</th>
+            <th scope="col" >Titre original</th>
+            <th scope="col">Genre</th>
+            <th scope="col">Realisateurs</th>
+            <th scope="col">Acteurs</th>
+            <th scope="col" style="max-width:80px;" th:if="${session.id != null}">Médiathèque</th>
+            <th scope="col" style="min-width:80px;" th:if="${session.id != null and avisPossible != null and avisPossible == true}">Mon avis</th>
+            <th scope="col" th:if="${session.id != null and avisPossible != null and avisPossible == true}">Actions</th>
         </tr>
         <tr>
             <td th:text="${film.titre}"></td>
-            <td><img  class="img-circle" th:src="${film.affiche}" alt="film" style="max-width:200px;"/></td>
+            <td><img  th:src="${film.affiche}" alt="film" style="max-width:100px;"/></td>
             <td th:text="${film.nationalite}"></td>
             <td th:text="${film.titreOriginal}"></td>
             <td th:text="${film.genre}"></td>
@@ -65,7 +86,7 @@
             </td>
             <td th:if="${session.id != null}">
                 <form th:action="@{'/ajouterFilmMediatheque/' + ${film.id}}" method="post">
-                    <button type="submit"> Ajouter à ma médiathèque</button>
+                    <button class="btn btn-primary" type="submit"> Ajouter à ma médiathèque</button>
                 </form>
             </td>
             <td th:if="${session.id != null and avisPossible != null and avisPossible == true}">
@@ -87,7 +108,7 @@
             <td th:if="${session.id != null and avisPossible != null and avisPossible == true}">
                 <form th:action="@{'/noterFilm/' + ${film.id}}" method="post">
 
-                    <select class="form-control" name="note" id="dropNote">
+                    <select class="form-control form-control-lg" name="note" id="dropNote">
                         <option th:value="0" th:text="'Ma note'"></option>
                         <option th:value="1" th:text="'♥♡♡♡♡'"></option>
                         <option th:value="2" th:text="'♥♥♡♡♡'"></option>
@@ -99,13 +120,14 @@
                     <textarea rows="5" cols="35" name="avis" id="avis" maxlength="140"></textarea>
 
                     <div>
-                        <input type="radio" name="vu" value="vu">Vu<br>
-                        <input type="radio" name="vu" value="aVoir">À voir<br>
+                        <input  class="form-check-input" type="radio" name="vu" value="vu">Vu<br>
+                        <input class="form-check-input"  type="radio" name="vu" value="aVoir">À voir<br>
                     </div>
-                    <button type="submit">Envoyer</button>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Envoyer</button>
                 </form>
             </td>
         </tr>
+        </thead>
     </table>
 </div>
 
@@ -118,9 +140,10 @@
 </div>
 
 <div>
-    <a th:href="@{/voirFilms}"> Voir tous les films</a>
-    <a th:href="@{/maMediatheque}"> Ma médiaathèque </a>
-    <a th:href="@{/}"> Retour à l'accueil</a>
-</div>
+    <a class="btn btn-primary" th:href="@{/voirFilms}"> Voir tous les films</a>
+    <a class="btn btn-primary" th:href="@{/mediatheque}"> Ma médiathèque </a>
+    <a class="btn btn-primary" th:href="@{/index}"> Retour à l'accueil</a>
+</div> </br> </br>
+    </div></br> </br> </div>
 </body>
 </html>

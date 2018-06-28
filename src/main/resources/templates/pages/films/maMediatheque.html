@@ -2,7 +2,17 @@
 <html lang="en" xmlns:th="http://wwwthymeleaf.org">
 <html>
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" type="text/css" th:href="@{bootstrap.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{bootstrap-reboot.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{bootstrap-grid.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{signin.css}">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="signin.css" rel="stylesheet">
     <title>MyTek - Ma médiathèque </title>
     <style type="text/css">
         div > table {
@@ -57,28 +67,31 @@
     </script>
 
 </head>
-<body>
+<body class="text-center" style="width:100%;height:auto;background:#ececec " >
+<div class="container"  style="background:#f8f7fa">
+    <br>
+    <br>
 
 <h2 style="text-align:center">Ma médiathèque</h2>
 <p style="text-align:center">Cliquez sur l'affiche d'un film pour afficher les détails</p>
 <br>
+    <table class="table" id="mediathequeTable" >
+        <thead class="thead-dark">
 
-<table id="mediathequeTable">
-
-    <thead>
     <tr>
-        <th>Titre</th>
-        <th>Affiche</th>
-        <th>Nationalite</th>
-        <th>Titre original</th>
-        <th>Genre</th>
+        <th scope="col">Titre</th>
+        <th scope="col" >Affiche</th>
+        <th scope="col">Nationalite</th>
+        <th scope="col">Titre original</th>
+        <th scope="col" >Genre</th>
     </tr>
     </thead>
 </table>
 
 <div>
-    <a th:href="@{/voirFilms}"> Voir tous les films</a>
-    <a th:href="@{/}"> Retour à l'accueil</a>
+    <a class="btn btn-primary"th:href="@{/voirFilms}"> Voir tous les films</a>
+    <a class="btn btn-primary" th:href="@{/index}"> Retour à l'accueil</a>
+</div>
 </div>
 </body>
 </html>

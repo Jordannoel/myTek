@@ -2,24 +2,27 @@
 <html lang="en" xmlns:th="http://wwwthymeleaf.org">
 <html>
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
     <link rel="stylesheet" type="text/css" th:href="@{bootstrap.css}">
     <link rel="stylesheet" type="text/css" th:href="@{bootstrap-reboot.css}">
     <link rel="stylesheet" type="text/css" th:href="@{bootstrap-grid.css}">
     <link rel="stylesheet" type="text/css" th:href="@{signin.css}">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="signin.css" rel="stylesheet">
     <title>MyTek - Mes informations personnelles </title>
     <style type="text/css">
-        div > table {
-            text-align: center;
-        }
 
         .error-message {
             color: red;
         }
     </style>
 </head>
-<body>
+<body class="text-center" style="background:#ececec " >
+<div class="container" style="background:#f8f7fa">
 
 
 <h2>Mon compte</h2>
@@ -39,9 +42,12 @@
     <span th:each="groupe : ${groupes}" th:text="${groupe.nomGroupe} + ' | '"> </span>
 </div>
 <br>
-
+<br><br>
 <div>
-    <a th:href="@{/}"> Retour à l'accueil</a>
+    <div>
+        <a class="btn btn-primary" th:href="@{/index}"> Retour à l'accueil</a>
+    </div>
+</div>
 </div>
 </body>
 </html>
