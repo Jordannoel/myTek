@@ -63,10 +63,11 @@ public class FilmsController {
         String genre = req.getParameter("genre");
         Long idRealisateur = Long.valueOf(req.getParameter("realisateurs"));
         Long idActeur = Long.valueOf(req.getParameter("acteurs"));
+        String dateSortie = req.getParameter("dateSortie");
         HttpSession session = req.getSession();
         try {
             Long idUtilisateur = (Long) session.getAttribute("id");
-            filmService.ajouterFilm(titre, affiche, nationalite, titreOriginal, genre, idUtilisateur, idRealisateur, idActeur);
+            filmService.ajouterFilm(titre, affiche, nationalite, titreOriginal, genre, idUtilisateur, idRealisateur, idActeur, dateSortie);
             redirectAttributes.addFlashAttribute("success", "Votre film a bien été ajouté");
             return REDIRECT + ApplicationUrl.AJOUTER_FILM;
         } catch (MyTekException ex) {

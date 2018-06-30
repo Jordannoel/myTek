@@ -59,7 +59,6 @@
         <span class="error-message" th:if="${errors != null}" th:text="${errors.get('nationalite')}"></span>
     </div>
     <div>
-
         <input placeholder="Titre original :" class="form-control"  id="titreOriginal" name="titreOriginal" type="text">
         <span class="error-message" th:if="${errors != null}" th:text="${errors.get('titreOriginal')}"></span>
     </div>
@@ -69,6 +68,11 @@
             <option th:each="genre : ${genres}" th:value="${genre.libelle}" th:text="${genre.libelle}"></option>
         </select>
         <span class="error-message" th:if="${errors != null}" th:text="${errors.get('genre')}"></span>
+    </div>
+    <div>
+        <label for="dateSortie">Date de sortie : </label>
+        <input id="dateSortie" name="dateSortie" type="date">
+        <span class="error-message" th:if="${errors != null}" th:text="${errors.get('date')}"></span>
     </div>
     <div>
         <select class="form-control form-control-lg" name="realisateurs" id="realisateurs">

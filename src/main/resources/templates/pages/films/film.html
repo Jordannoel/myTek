@@ -84,6 +84,7 @@
                     </li>
                 </ul>
             </td>
+            <td th:text="${#dates.format(film.dateSortie, 'dd-MM-yyyy')}"></td>
             <td th:if="${session.id != null}">
                 <form th:action="@{'/ajouterFilmMediatheque/' + ${film.id}}" method="post">
                     <button class="btn btn-primary" type="submit"> Ajouter à ma médiathèque</button>
@@ -141,7 +142,7 @@
 
 <div>
     <a class="btn btn-primary" th:href="@{/voirFilms}"> Voir tous les films</a>
-    <a class="btn btn-primary" th:href="@{/mediatheque}"> Ma médiathèque </a>
+    <a class="btn btn-primary" th:href="@{/maMediatheque}"> Ma médiathèque </a>
     <a class="btn btn-primary" th:href="@{/index}"> Retour à l'accueil</a>
 </div> </br> </br>
     </div></br> </br> </div>

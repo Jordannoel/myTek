@@ -6,6 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -46,7 +47,8 @@ public class Film {
     )
     private List<Acteur> acteurs = new ArrayList<>();
 
-    //private Date dateSortie;
+    @Column(name = "date_sortie")
+    private Date dateSortie;
 
     public Film(@NotNull String titre, @NotNull String affiche, String nationalite, String titreOriginal, String genre) {
         this.titre = titre;
@@ -56,7 +58,7 @@ public class Film {
         this.genre = genre;
     }
 
-    public Film(@NotNull String titre, @NotNull String affiche, String nationalite, String titreOriginal, String genre, Realisateur realisateur, Acteur acteur) {
+    public Film(@NotNull String titre, @NotNull String affiche, String nationalite, String titreOriginal, String genre, Realisateur realisateur, Acteur acteur, Date dateSortie) {
         this.titre = titre;
         this.affiche = affiche;
         this.nationalite = nationalite;
@@ -66,6 +68,7 @@ public class Film {
         }
         this.realisateurs.add(realisateur);
         this.acteurs.add(acteur);
+        this.dateSortie = dateSortie;
     }
 
     public Film() {

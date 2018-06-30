@@ -47,7 +47,12 @@
                     },
                     {"mData": "nationalite"},
                     {"mData": "titreOriginal"},
-                    {"mData": "genre"}
+                    {"mData": "genre"},
+                    {
+                        "mData": "dateSortie", "render": function (data, type, row) {
+                            return data.substring(0, 10);
+                        }
+                    }
                 ],
                 "language": {
                     "lengthMenu": "Afficher _MENU_ éléments par page",
@@ -84,6 +89,7 @@
         <th scope="col">Nationalite</th>
         <th scope="col">Titre original</th>
         <th scope="col" >Genre</th>
+        <th scope="col" >Date de sortie</th>
     </tr>
     </thead>
 </table>

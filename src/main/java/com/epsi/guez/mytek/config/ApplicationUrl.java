@@ -26,7 +26,7 @@ public final class ApplicationUrl {
     public static final String RENDRE_ADMINISTRATEUR = "/rendreAdministrateur";
 
     public static final String DEMANDE_REJOINDRE_GROUPE = "/demandeRejoindreGroupe";
-    public static final String MEDIATHEQUE = "/mediatheque";
+    public static final String MEDIATHEQUE = "/maMediatheque";
     public static final String AJOUTER_FILM_MEDIATHEQUE = "/ajouterFilmMediatheque";
     public static final String MEDIATHEQUE_LISTE = "/mediathequeListe";
 }

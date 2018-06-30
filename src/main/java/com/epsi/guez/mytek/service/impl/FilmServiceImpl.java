@@ -11,7 +11,12 @@ import com.epsi.guez.mytek.model.Realisateur;
 import com.epsi.guez.mytek.service.FilmService;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class FilmServiceImpl implements FilmService {
@@ -39,7 +44,7 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    public void ajouterFilm(String titre, String affiche, String nationalite, String titreOriginal, String genre, Long idUtilisateur, Long idRealisateur, Long idActeur) throws MyTekException {
+    public void ajouterFilm(String titre, String affiche, String nationalite, String titreOriginal, String genre, Long idUtilisateur, Long idRealisateur, Long idActeur, String date) throws MyTekException {
         MyTekException ex = new MyTekException();
         if (idUtilisateur == null) {
             ex.addMessage("connexion", "Vous devez êtrer connecté pour ajouter un film.");
@@ -53,15 +58,23 @@ public class FilmServiceImpl implements FilmService {
         if (affiche == null || affiche.equals("")) {
             affiche = MyTekUtils.getProperty("aucuneImage");
         }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateParsed = null;
+        try {
+            dateParsed = sdf.parse(date);
+        } catch (ParseException e) {
+            ex.addMessage("technique", "Une erreur est survenue : " + e.getMessage());
+        }
+
         Realisateur realisateur = realisateurDao.findOneById(idRealisateur);
         Acteur acteur = acteurDao.findOneById(idActeur);
 
-        filmDao.save(new Film(titre, affiche, nationalite, titreOriginal, genre, realisateur, acteur));
+        filmDao.save(new Film(titre, affiche, nationalite, titreOriginal, genre, realisateur, acteur, dateParsed));
     }
 
     @Override
     public List<Film> findAllByIdUtilisateur(Long id) {
-        List<Film> test = filmDao.findAllByIdUtilisateur(id);
-        return test;
+        return filmDao.findAllByIdUtilisateur(id);
     }
 }

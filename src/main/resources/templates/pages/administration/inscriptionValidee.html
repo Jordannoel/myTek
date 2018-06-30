@@ -13,17 +13,17 @@
     <title>MyTek - inscription validée</title>
 </head>
 <body class="text-center">
-<div class="container"  style="background:#f8f9fa">
-<div> <h1 class="h3 mb-3 font-weight-normal" >
-    Félécitation
-    <span th:text="${prenom}"></span> <span th:text="${nom}"></span>,</br>
-   Votre inscription a bien été prise en compte pour l'adresse mail
-    <span th:text="${email}" ></span>.
-</h1>
-</div>
-<div>
-    <a class="btn btn-outline-primary" th:href="@{/index}"> Acceder à l'accueil</a>
-</div>
+<div class="container" style="background:#f8f9fa">
+    <div><h1 class="h3 mb-3 font-weight-normal">
+        Félécitations
+        <span th:text="${prenom}"></span> <span th:text="${nom}"></span>,</br>
+        Votre inscription a bien été prise en compte pour l'adresse mail
+        <span th:text="${email}"></span>.
+    </h1>
+    </div>
+    <div>
+        <a class="btn btn-outline-primary" th:href="@{/index}"> Acceder à l'accueil</a>
+    </div>
 </div>
 </body>
 </html>

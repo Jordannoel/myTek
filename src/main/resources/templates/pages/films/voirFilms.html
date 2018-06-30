@@ -32,7 +32,16 @@
                     },
                     {"mData": "nationalite"},
                     {"mData": "titreOriginal"},
-                    {"mData": "genre"}
+                    {"mData": "genre"},
+                    {
+                        "mData": "dateSortie", "render": function (data, type, row) {
+                            if (data == null) {
+                                return 'Pas de date'
+                            } else {
+                                return data.substring(0, 10);
+                            }
+                        }
+                    }
                 ],
                 "language": {
                     "lengthMenu": "Afficher _MENU_ éléments par page",
@@ -52,36 +61,37 @@
     </script>
 </head>
 
-<body class="text-center" style="width:100%;height:auto;background:#ececec " >
-<div class="container"  style="background:#f8f7fa">
+<body class="text-center" style="width:100%;height:auto;background:#ececec ">
+<div class="container" style="background:#f8f7fa">
     <br>
     <br>
     <div class="panel-body" style="background: #ececec">
-<h2 style="text-align:center">Liste de films</h2>
-<p style="text-align:center">Cliquez sur l'affiche d'un film pour afficher les détails</p>
-<br>
+        <h2 style="text-align:center">Liste de films</h2>
+        <p style="text-align:center">Cliquez sur l'affiche d'un film pour afficher les détails</p>
+        <br>
 
 
         <div>
-            <a class="btn btn-primary"th:href="@{/ajouterFilm}"> Ajouter un film</a>
+            <a class="btn btn-primary" th:href="@{/ajouterFilm}"> Ajouter un film</a>
             <a class="btn btn-primary" th:href="@{/index}"> Retour à l'accueil</a>
-            <a class="btn btn-primary"th:href="@{/ajouterRealisateur}"> Ajouter un réalisateur</a>
-            <a class="btn btn-primary"th:href="@{/ajouterActeur}"> Ajouter un acteur</a>
+            <a class="btn btn-primary" th:href="@{/ajouterRealisateur}"> Ajouter un réalisateur</a>
+            <a class="btn btn-primary" th:href="@{/ajouterActeur}"> Ajouter un acteur</a>
         </div>
     </div>
     <br>
     <br>
     <table class="table" id="filmsTable">
         <thead class="thead-dark">
-    <tr>
-        <th scope="col" >Titre</th>
-        <th scope="col" >Affiche</th>
-        <th scope="col" >Nationalite</th>
-        <th scope="col" >Titre original</th>
-        <th scope="col" >Genre</th>
-    </tr>
-    </thead>
-</table>
+        <tr>
+            <th scope="col">Titre</th>
+            <th scope="col">Affiche</th>
+            <th scope="col">Nationalite</th>
+            <th scope="col">Titre original</th>
+            <th scope="col">Genre</th>
+            <th scope="col">Date de sortie</th>
+        </tr>
+        </thead>
+    </table>
 
 
 </div>

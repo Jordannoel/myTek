@@ -2,20 +2,29 @@
 <html lang="en" xmlns:th="http://wwwthymeleaf.org">
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>MyTek - Groupe validé</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" type="text/css" th:href="@{bootstrap.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{bootstrap-reboot.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{bootstrap-grid.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{signin.css}">
+    <link href="signin.css" rel="stylesheet">
+    <title>MyTek - création de groupe validée</title>
 </head>
-<body>
-<div>
-    Votre groupe a bien été crée.
-    <br>
-    <h2>Groupe :</h2>
-    <span th:text="${nomGroupe}"></span>
-    <br>
-    <img th:src="${urlImage}">
-</div>
-<div>
-    <a th:href="@{/}"> Retour à l'accueil</a>
+<body class="text-center">
+<div class="container" style="background:#f8f9fa">
+    <div><h1 class="h3 mb-3 font-weight-normal">
+        Votre groupe a bien été crée.
+        <br>
+        <span th:text="${nomGroupe}"></span>
+        <br>
+        <img th:src="${urlImage}">
+    </h1>
+    </div>
+    <div>
+        <a class="btn btn-outline-primary" th:href="@{/index}"> Acceder à l'accueil</a>
+    </div>
 </div>
 </body>
 </html>
